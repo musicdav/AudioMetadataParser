@@ -1,0 +1,22 @@
+{
+  "name": "AudioMetadataParser",
+  "version": "0.1.0",
+  "summary": "A short description of AudioMetadataParser.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/200456582/AudioMetadataParser",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "200456582": "admin@lyman.com"
+  },
+  "source": {
+    "git": "https://github.com/200456582/AudioMetadataParser.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "10.0"
+  },
+  "source_files": "AudioMetadataParser/Classes/**/*"
+}

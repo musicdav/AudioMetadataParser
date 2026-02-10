@@ -1,0 +1,6 @@
+framework module AudioMetadataParser {
+  umbrella header "AudioMetadataParser-umbrella.h"
+
+  export *
+  module * { export * }
+}
