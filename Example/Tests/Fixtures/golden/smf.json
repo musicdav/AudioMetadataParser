@@ -1,0 +1,23 @@
+{
+  "format": "smf",
+  "cases": [
+    {
+      "caseId": "sample",
+      "sourcePythonTest": [
+        "test_smf.py"
+      ],
+      "inputFile": "sample.mid",
+      "expectedFormat": "smf",
+      "expectedCoreInfo": {
+        "length": 127.99791666666667,
+        "bitrate": null,
+        "sampleRate": null,
+        "channels": null,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    }
+  ]
+}

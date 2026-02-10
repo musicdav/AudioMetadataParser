@@ -1,0 +1,140 @@
+{
+  "format": "apev2",
+  "cases": [
+    {
+      "caseId": "145-invalid-item-count",
+      "sourcePythonTest": [
+        "test_apev2.py"
+      ],
+      "inputFile": "145-invalid-item-count.apev2",
+      "expectedFormat": "apev2",
+      "expectedCoreInfo": {
+        "length": 0,
+        "bitrate": 0,
+        "sampleRate": null,
+        "channels": null,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "Artist": {
+          "kind": "text",
+          "value": [
+            "Pink Floyd"
+          ]
+        },
+        "Album": {
+          "kind": "text",
+          "value": [
+            "Division Bell"
+          ]
+        },
+        "Track": {
+          "kind": "text",
+          "value": [
+            "11/11"
+          ]
+        },
+        "Title": {
+          "kind": "text",
+          "value": [
+            "High Hopes"
+          ]
+        },
+        "Genre": {
+          "kind": "text",
+          "value": [
+            "Rock"
+          ]
+        }
+      },
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "brokentag",
+      "sourcePythonTest": [
+        "test_apev2.py"
+      ],
+      "inputFile": "brokentag.apev2",
+      "expectedFormat": "apev2",
+      "expectedCoreInfo": {
+        "length": 0,
+        "bitrate": 0,
+        "sampleRate": null,
+        "channels": null,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "Track": {
+          "kind": "text",
+          "value": [
+            "07"
+          ]
+        },
+        "Artist": {
+          "kind": "text",
+          "value": [
+            "AnArtist"
+          ]
+        },
+        "Title": {
+          "kind": "text",
+          "value": [
+            "Some Music"
+          ]
+        },
+        "Album": {
+          "kind": "text",
+          "value": [
+            "A test case"
+          ]
+        }
+      },
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "oldtag",
+      "sourcePythonTest": [
+        "test_apev2.py"
+      ],
+      "inputFile": "oldtag.apev2",
+      "expectedFormat": "apev2",
+      "expectedCoreInfo": {
+        "length": 0,
+        "bitrate": 0,
+        "sampleRate": null,
+        "channels": null,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "Track": {
+          "kind": "text",
+          "value": [
+            "07"
+          ]
+        },
+        "Artist": {
+          "kind": "text",
+          "value": [
+            "AnArtist"
+          ]
+        },
+        "Title": {
+          "kind": "text",
+          "value": [
+            "Some Music"
+          ]
+        },
+        "Album": {
+          "kind": "text",
+          "value": [
+            "A test case"
+          ]
+        }
+      },
+      "expectedExtensions": {},
+      "expectedError": null
+    }
+  ]
+}

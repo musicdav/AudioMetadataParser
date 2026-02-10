@@ -1,0 +1,57 @@
+{
+  "format": "mp4",
+  "cases": [
+    {
+      "caseId": "64bit",
+      "sourcePythonTest": [
+        "test_mp4.py"
+      ],
+      "inputFile": "64bit.mp4",
+      "expectedFormat": "mp4",
+      "expectedCoreInfo": {
+        "length": null,
+        "bitrate": null,
+        "sampleRate": null,
+        "channels": null,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": {
+        "code": "unsupportedFormat",
+        "message": "mutagen returned None"
+      }
+    },
+    {
+      "caseId": "truncated-64bit",
+      "sourcePythonTest": [
+        "test_mp4.py"
+      ],
+      "inputFile": "truncated-64bit.mp4",
+      "expectedFormat": "mp4",
+      "expectedCoreInfo": {
+        "length": 0.3250793650793651,
+        "bitrate": 128000,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "codec": {
+          "kind": "text",
+          "value": [
+            "mp4a.40.2"
+          ]
+        },
+        "codec_description": {
+          "kind": "text",
+          "value": [
+            "AAC LC"
+          ]
+        }
+      },
+      "expectedError": null
+    }
+  ]
+}

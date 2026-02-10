@@ -1,0 +1,41 @@
+{
+  "format": "aac",
+  "cases": [
+    {
+      "caseId": "adif",
+      "sourcePythonTest": [
+        "test_aac.py"
+      ],
+      "inputFile": "adif.aac",
+      "expectedFormat": "aac",
+      "expectedCoreInfo": {
+        "length": 0.2549375,
+        "bitrate": 128000,
+        "sampleRate": 48000,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "empty",
+      "sourcePythonTest": [
+        "test_aac.py"
+      ],
+      "inputFile": "empty.aac",
+      "expectedFormat": "aac",
+      "expectedCoreInfo": {
+        "length": 3.699109658293332,
+        "bitrate": 3159.0,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    }
+  ]
+}

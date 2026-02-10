@@ -1,0 +1,300 @@
+{
+  "format": "flac",
+  "cases": [
+    {
+      "caseId": "106-invalid-streaminfo",
+      "sourcePythonTest": [
+        "test_flac.py"
+      ],
+      "inputFile": "106-invalid-streaminfo.flac",
+      "expectedFormat": "flac",
+      "expectedCoreInfo": {
+        "length": null,
+        "bitrate": null,
+        "sampleRate": null,
+        "channels": null,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": {
+        "code": "invalidHeader",
+        "message": "file said 16 bytes, read 0 bytes"
+      }
+    },
+    {
+      "caseId": "106-short-picture-block-size",
+      "sourcePythonTest": [
+        "test_flac.py"
+      ],
+      "inputFile": "106-short-picture-block-size.flac",
+      "expectedFormat": "flac",
+      "expectedCoreInfo": {
+        "length": 3.684716553287982,
+        "bitrate": 1098,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "52-overwritten-metadata",
+      "sourcePythonTest": [
+        "test_flac.py"
+      ],
+      "inputFile": "52-overwritten-metadata.flac",
+      "expectedFormat": "flac",
+      "expectedCoreInfo": {
+        "length": 236.6,
+        "bitrate": 9,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {
+        "title": {
+          "kind": "text",
+          "value": [
+            "Songs of Rejoicing"
+          ]
+        },
+        "genre": {
+          "kind": "text",
+          "value": [
+            "Klezmer"
+          ]
+        },
+        "album": {
+          "kind": "text",
+          "value": [
+            "The Magic of the Klezmer"
+          ]
+        },
+        "artist": {
+          "kind": "text",
+          "value": [
+            "Giora Feidman"
+          ]
+        }
+      },
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "52-too-short-block-size",
+      "sourcePythonTest": [
+        "test_flac.py"
+      ],
+      "inputFile": "52-too-short-block-size.flac",
+      "expectedFormat": "flac",
+      "expectedCoreInfo": {
+        "length": 202.8,
+        "bitrate": 1963,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {
+        "title": {
+          "kind": "text",
+          "value": [
+            "Mother's Daughter"
+          ]
+        },
+        "genre": {
+          "kind": "text",
+          "value": [
+            "Folk-Rock"
+          ]
+        },
+        "album": {
+          "kind": "text",
+          "value": [
+            "Mother's Daughter and Other Songs"
+          ]
+        },
+        "artist": {
+          "kind": "text",
+          "value": [
+            "Tunng"
+          ]
+        }
+      },
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "flac_application",
+      "sourcePythonTest": [
+        "test_flac.py"
+      ],
+      "inputFile": "flac_application.flac",
+      "expectedFormat": "flac",
+      "expectedCoreInfo": {
+        "length": 273.64,
+        "bitrate": 2,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {
+        "title": {
+          "kind": "text",
+          "value": [
+            "I Want the World to Stop"
+          ]
+        },
+        "album": {
+          "kind": "text",
+          "value": [
+            "Belle and Sebastian Write About Love"
+          ]
+        },
+        "artist": {
+          "kind": "text",
+          "value": [
+            "Belle and Sebastian"
+          ]
+        }
+      },
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "no-tags",
+      "sourcePythonTest": [
+        "test_flac.py"
+      ],
+      "inputFile": "no-tags.flac",
+      "expectedFormat": "flac",
+      "expectedCoreInfo": {
+        "length": 3.684716553287982,
+        "bitrate": 1098,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "ooming-header",
+      "sourcePythonTest": [
+        "test_flac.py"
+      ],
+      "inputFile": "ooming-header.flac",
+      "expectedFormat": "flac",
+      "expectedCoreInfo": {
+        "length": null,
+        "bitrate": null,
+        "sampleRate": null,
+        "channels": null,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": {
+        "code": "invalidHeader",
+        "message": "file said 4 bytes, read 0 bytes"
+      }
+    },
+    {
+      "caseId": "silence-44-s",
+      "sourcePythonTest": [
+        "test_flac.py",
+        "test_mp3.py"
+      ],
+      "inputFile": "silence-44-s.flac",
+      "expectedFormat": "flac",
+      "expectedCoreInfo": {
+        "length": 3.684716553287982,
+        "bitrate": 101430,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {
+        "title": {
+          "kind": "text",
+          "value": [
+            "Silence"
+          ]
+        },
+        "genre": {
+          "kind": "text",
+          "value": [
+            "Silence"
+          ]
+        },
+        "album": {
+          "kind": "text",
+          "value": [
+            "Quod Libet Test Data"
+          ]
+        },
+        "artist": {
+          "kind": "text",
+          "value": [
+            "piman",
+            "jzig"
+          ]
+        }
+      },
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "variable-block",
+      "sourcePythonTest": [
+        "test_flac.py"
+      ],
+      "inputFile": "variable-block.flac",
+      "expectedFormat": "flac",
+      "expectedCoreInfo": {
+        "length": 261.68,
+        "bitrate": 60,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {
+        "title": {
+          "kind": "text",
+          "value": [
+            "DIVE FOR YOU"
+          ]
+        },
+        "genre": {
+          "kind": "text",
+          "value": [
+            "Anime Soundtrack"
+          ]
+        },
+        "artist": {
+          "kind": "text",
+          "value": [
+            "Boom Boom Satellites"
+          ]
+        },
+        "comment": {
+          "kind": "text",
+          "value": [
+            "Original Soundtrack"
+          ]
+        },
+        "album": {
+          "kind": "text",
+          "value": [
+            "Appleseed Original Soundtrack"
+          ]
+        }
+      },
+      "expectedExtensions": {},
+      "expectedError": null
+    }
+  ]
+}

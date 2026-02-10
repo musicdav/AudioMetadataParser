@@ -1,0 +1,62 @@
+{
+  "format": "tak",
+  "cases": [
+    {
+      "caseId": "has-tags",
+      "sourcePythonTest": [
+        "test_tak.py"
+      ],
+      "inputFile": "has-tags.tak",
+      "expectedFormat": "tak",
+      "expectedCoreInfo": {
+        "length": 0.08281179138321995,
+        "bitrate": 0,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {
+        "Artist": {
+          "kind": "text",
+          "value": [
+            "The Artist"
+          ]
+        }
+      },
+      "expectedExtensions": {
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            "TAK 2.3.0"
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "silence-44-s",
+      "sourcePythonTest": [
+        "test_tak.py"
+      ],
+      "inputFile": "silence-44-s.tak",
+      "expectedFormat": "tak",
+      "expectedCoreInfo": {
+        "length": 3.684716553287982,
+        "bitrate": 0,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            "TAK 2.3.0"
+          ]
+        }
+      },
+      "expectedError": null
+    }
+  ]
+}

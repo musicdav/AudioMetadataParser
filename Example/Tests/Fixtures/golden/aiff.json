@@ -1,0 +1,120 @@
+{
+  "format": "aiff",
+  "cases": [
+    {
+      "caseId": "11k-1ch-2s-silence",
+      "sourcePythonTest": [
+        "test_aiff.py"
+      ],
+      "inputFile": "11k-1ch-2s-silence.aif",
+      "expectedFormat": "aiff",
+      "expectedCoreInfo": {
+        "length": 2.0,
+        "bitrate": 176400,
+        "sampleRate": 11025,
+        "channels": 1,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "48k-2ch-s16-silence",
+      "sourcePythonTest": [
+        "test_aiff.py"
+      ],
+      "inputFile": "48k-2ch-s16-silence.aif",
+      "expectedFormat": "aiff",
+      "expectedCoreInfo": {
+        "length": 0.1,
+        "bitrate": 1536000,
+        "sampleRate": 48000,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "8k-1ch-1s-silence",
+      "sourcePythonTest": [
+        "test_aiff.py"
+      ],
+      "inputFile": "8k-1ch-1s-silence.aif",
+      "expectedFormat": "aiff",
+      "expectedCoreInfo": {
+        "length": 1.0,
+        "bitrate": 128000,
+        "sampleRate": 8000,
+        "channels": 1,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "8k-1ch-3.5s-silence",
+      "sourcePythonTest": [
+        "test_aiff.py"
+      ],
+      "inputFile": "8k-1ch-3.5s-silence.aif",
+      "expectedFormat": "aiff",
+      "expectedCoreInfo": {
+        "length": 3.5,
+        "bitrate": 128000,
+        "sampleRate": 8000,
+        "channels": 1,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "8k-4ch-1s-silence",
+      "sourcePythonTest": [
+        "test_aiff.py"
+      ],
+      "inputFile": "8k-4ch-1s-silence.aif",
+      "expectedFormat": "aiff",
+      "expectedCoreInfo": {
+        "length": 1.0,
+        "bitrate": 512000,
+        "sampleRate": 8000,
+        "channels": 4,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "with-id3",
+      "sourcePythonTest": [
+        "test_aiff.py"
+      ],
+      "inputFile": "with-id3.aif",
+      "expectedFormat": "aiff",
+      "expectedCoreInfo": {
+        "length": 1.0,
+        "bitrate": 128000,
+        "sampleRate": 8000,
+        "channels": 1,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {
+        "TIT2": {
+          "kind": "text",
+          "value": [
+            "AIFF title"
+          ]
+        }
+      },
+      "expectedExtensions": {},
+      "expectedError": null
+    }
+  ]
+}

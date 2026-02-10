@@ -1,0 +1,85 @@
+{
+  "format": "dsf",
+  "cases": [
+    {
+      "caseId": "2822400-1ch-0s-silence",
+      "sourcePythonTest": [
+        "test_dsdiff.py",
+        "test_dsf.py"
+      ],
+      "inputFile": "2822400-1ch-0s-silence.dsf",
+      "expectedFormat": "dsf",
+      "expectedCoreInfo": {
+        "length": 0.0,
+        "bitrate": 2822400,
+        "sampleRate": 2822400,
+        "channels": 1,
+        "bitsPerSample": 1
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "5644800-2ch-s01-silence",
+      "sourcePythonTest": [
+        "test_dsf.py"
+      ],
+      "inputFile": "5644800-2ch-s01-silence.dsf",
+      "expectedFormat": "dsf",
+      "expectedCoreInfo": {
+        "length": 0.01,
+        "bitrate": 11289600,
+        "sampleRate": 5644800,
+        "channels": 2,
+        "bitsPerSample": 1
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "with-id3",
+      "sourcePythonTest": [
+        "test_dsf.py"
+      ],
+      "inputFile": "with-id3.dsf",
+      "expectedFormat": "dsf",
+      "expectedCoreInfo": {
+        "length": 0.0,
+        "bitrate": 2822400,
+        "sampleRate": 2822400,
+        "channels": 1,
+        "bitsPerSample": 1
+      },
+      "expectedTags": {
+        "TIT2": {
+          "kind": "text",
+          "value": [
+            "DSF title"
+          ]
+        }
+      },
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "without-id3",
+      "sourcePythonTest": [
+        "test_dsf.py"
+      ],
+      "inputFile": "without-id3.dsf",
+      "expectedFormat": "dsf",
+      "expectedCoreInfo": {
+        "length": 0.0,
+        "bitrate": 2822400,
+        "sampleRate": 2822400,
+        "channels": 1,
+        "bitsPerSample": 1
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    }
+  ]
+}

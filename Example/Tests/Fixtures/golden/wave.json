@@ -1,0 +1,133 @@
+{
+  "format": "wave",
+  "cases": [
+    {
+      "caseId": "silence-2s-PCM-16000-08-ID3v23",
+      "sourcePythonTest": [
+        "test_wave.py"
+      ],
+      "inputFile": "silence-2s-PCM-16000-08-ID3v23.wav",
+      "expectedFormat": "wave",
+      "expectedCoreInfo": {
+        "length": 2.0,
+        "bitrate": 256000,
+        "sampleRate": 16000,
+        "channels": 2,
+        "bitsPerSample": 8
+      },
+      "expectedTags": {
+        "TIT2": {
+          "kind": "text",
+          "value": [
+            "Silence"
+          ]
+        },
+        "TALB": {
+          "kind": "text",
+          "value": [
+            "Quod Libet Test Data"
+          ]
+        },
+        "TCON": {
+          "kind": "text",
+          "value": [
+            "Silence"
+          ]
+        },
+        "TRCK": {
+          "kind": "text",
+          "value": [
+            "02/10"
+          ]
+        },
+        "TPE1": {
+          "kind": "text",
+          "value": [
+            "piman / jzig"
+          ]
+        },
+        "TDRC": {
+          "kind": "text",
+          "value": [
+            "2004"
+          ]
+        }
+      },
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "silence-2s-PCM-16000-08-notags",
+      "sourcePythonTest": [
+        "test_wave.py"
+      ],
+      "inputFile": "silence-2s-PCM-16000-08-notags.wav",
+      "expectedFormat": "wave",
+      "expectedCoreInfo": {
+        "length": 2.0,
+        "bitrate": 256000,
+        "sampleRate": 16000,
+        "channels": 2,
+        "bitsPerSample": 8
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "silence-2s-PCM-44100-16-ID3v23",
+      "sourcePythonTest": [
+        "test_wave.py"
+      ],
+      "inputFile": "silence-2s-PCM-44100-16-ID3v23.wav",
+      "expectedFormat": "wave",
+      "expectedCoreInfo": {
+        "length": 2.0,
+        "bitrate": 1411200,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {
+        "TIT2": {
+          "kind": "text",
+          "value": [
+            "Silence"
+          ]
+        },
+        "TALB": {
+          "kind": "text",
+          "value": [
+            "Quod Libet Test Data"
+          ]
+        },
+        "TCON": {
+          "kind": "text",
+          "value": [
+            "Silence"
+          ]
+        },
+        "TRCK": {
+          "kind": "text",
+          "value": [
+            "02/10"
+          ]
+        },
+        "TPE1": {
+          "kind": "text",
+          "value": [
+            "piman / jzig"
+          ]
+        },
+        "TDRC": {
+          "kind": "text",
+          "value": [
+            "2004"
+          ]
+        }
+      },
+      "expectedExtensions": {},
+      "expectedError": null
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "format": "musepack",
+  "cases": [
+    {
+      "caseId": "almostempty",
+      "sourcePythonTest": [
+        "test_musepack.py"
+      ],
+      "inputFile": "almostempty.mpc",
+      "expectedFormat": "musepack",
+      "expectedCoreInfo": {
+        "length": null,
+        "bitrate": null,
+        "sampleRate": null,
+        "channels": null,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": {
+        "code": "invalidHeader",
+        "message": "'/Users/mac/AudioMetadataParser/tests/data/almostempty.mpc' ID3v2.32 not supported"
+      }
+    },
+    {
+      "caseId": "click",
+      "sourcePythonTest": [
+        "test_apev2.py",
+        "test_asf.py",
+        "test_monkeysaudio.py",
+        "test_musepack.py",
+        "test_optimfrog.py",
+        "test_tak.py"
+      ],
+      "inputFile": "click.mpc",
+      "expectedFormat": "musepack",
+      "expectedCoreInfo": {
+        "length": 0.0653061224489796,
+        "bitrate": 194530,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 7
+        },
+        "album_gain": {
+          "kind": "double",
+          "value": 9.27
+        },
+        "album_peak": {
+          "kind": "double",
+          "value": 0.11485465781643396
+        },
+        "title_gain": {
+          "kind": "double",
+          "value": 9.27
+        },
+        "title_peak": {
+          "kind": "double",
+          "value": 0.11485465781643396
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "sv4_header",
+      "sourcePythonTest": [
+        "test_musepack.py"
+      ],
+      "inputFile": "sv4_header.mpc",
+      "expectedFormat": "musepack",
+      "expectedCoreInfo": {
+        "length": 26.344489795918367,
+        "bitrate": 39,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 4
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "sv5_header",
+      "sourcePythonTest": [
+        "test_musepack.py"
+      ],
+      "inputFile": "sv5_header.mpc",
+      "expectedFormat": "musepack",
+      "expectedCoreInfo": {
+        "length": 26.344489795918367,
+        "bitrate": 39,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 5
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "sv8_header",
+      "sourcePythonTest": [
+        "test_musepack.py"
+      ],
+      "inputFile": "sv8_header.mpc",
+      "expectedFormat": "musepack",
+      "expectedCoreInfo": {
+        "length": 1.4969160997732427,
+        "bitrate": 609,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 8
+        },
+        "album_gain": {
+          "kind": "double",
+          "value": -4.668281250000007
+        },
+        "album_peak": {
+          "kind": "double",
+          "value": 0.5288961994063482
+        },
+        "title_gain": {
+          "kind": "double",
+          "value": -4.668281250000007
+        },
+        "title_peak": {
+          "kind": "double",
+          "value": 0.5288961994063482
+        }
+      },
+      "expectedError": null
+    }
+  ]
+}

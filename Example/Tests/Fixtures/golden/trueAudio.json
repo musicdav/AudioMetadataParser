@@ -1,0 +1,23 @@
+{
+  "format": "trueAudio",
+  "cases": [
+    {
+      "caseId": "empty",
+      "sourcePythonTest": [
+        "test_trueaudio.py"
+      ],
+      "inputFile": "empty.tta",
+      "expectedFormat": "trueAudio",
+      "expectedCoreInfo": {
+        "length": 3.684716553287982,
+        "bitrate": null,
+        "sampleRate": 44100,
+        "channels": null,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    }
+  ]
+}

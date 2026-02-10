@@ -1,0 +1,288 @@
+{
+  "format": "m4a",
+  "cases": [
+    {
+      "caseId": "alac",
+      "sourcePythonTest": [
+        "test_mp4.py"
+      ],
+      "inputFile": "alac.m4a",
+      "expectedFormat": "m4a",
+      "expectedCoreInfo": {
+        "length": 3.684716553287982,
+        "bitrate": 2764,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {
+        "cpil": {
+          "kind": "bool",
+          "value": false
+        },
+        "tmpo": {
+          "kind": "text",
+          "value": [
+            "0"
+          ]
+        }
+      },
+      "expectedExtensions": {
+        "codec": {
+          "kind": "text",
+          "value": [
+            "alac"
+          ]
+        },
+        "codec_description": {
+          "kind": "text",
+          "value": [
+            "ALAC"
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "covr-with-name",
+      "sourcePythonTest": [
+        "test_mp4.py"
+      ],
+      "inputFile": "covr-with-name.m4a",
+      "expectedFormat": "m4a",
+      "expectedCoreInfo": {
+        "length": 3.707936507936508,
+        "bitrate": 2914,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {
+        "covr": {
+          "kind": "binary",
+          "value": {
+            "size": 366,
+            "sha256": "b24f23a3279b8d506ee42132b4584d5772773b6b3bbbe6e14778bf8f6cc620d2"
+          }
+        }
+      },
+      "expectedExtensions": {
+        "codec": {
+          "kind": "text",
+          "value": [
+            "mp4a.40.2"
+          ]
+        },
+        "codec_description": {
+          "kind": "text",
+          "value": [
+            "AAC LC"
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "ep7",
+      "sourcePythonTest": [
+        "test_mp4.py"
+      ],
+      "inputFile": "ep7.m4b",
+      "expectedFormat": "m4a",
+      "expectedCoreInfo": {
+        "length": 2.020136054421769,
+        "bitrate": 125591,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "codec": {
+          "kind": "text",
+          "value": [
+            "mp4a.40.2"
+          ]
+        },
+        "codec_description": {
+          "kind": "text",
+          "value": [
+            "AAC LC"
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "ep9",
+      "sourcePythonTest": [
+        "test_mp4.py"
+      ],
+      "inputFile": "ep9.m4b",
+      "expectedFormat": "m4a",
+      "expectedCoreInfo": {
+        "length": 2.020136054421769,
+        "bitrate": 61591,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "codec": {
+          "kind": "text",
+          "value": [
+            "mp4a.40.2"
+          ]
+        },
+        "codec_description": {
+          "kind": "text",
+          "value": [
+            "AAC LC"
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "has-tags",
+      "sourcePythonTest": [
+        "test_mp4.py"
+      ],
+      "inputFile": "has-tags.m4a",
+      "expectedFormat": "m4a",
+      "expectedCoreInfo": {
+        "length": 3.707936507936508,
+        "bitrate": 2914,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {
+        "covr": {
+          "kind": "binary",
+          "value": {
+            "size": 366,
+            "sha256": "b24f23a3279b8d506ee42132b4584d5772773b6b3bbbe6e14778bf8f6cc620d2"
+          }
+        }
+      },
+      "expectedExtensions": {
+        "codec": {
+          "kind": "text",
+          "value": [
+            "mp4a.40.2"
+          ]
+        },
+        "codec_description": {
+          "kind": "text",
+          "value": [
+            "AAC LC"
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "nero-chapters",
+      "sourcePythonTest": [
+        "test_mp4.py"
+      ],
+      "inputFile": "nero-chapters.m4b",
+      "expectedFormat": "m4a",
+      "expectedCoreInfo": {
+        "length": 169022.693877551,
+        "bitrate": 62794,
+        "sampleRate": 22050,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {
+        "covr": {
+          "kind": "binary",
+          "value": {
+            "size": 57311,
+            "sha256": "53e68d48d8aa5491ad8d1a28f1d6f047650d59b4454e21230b3515df5ef234c3"
+          }
+        }
+      },
+      "expectedExtensions": {
+        "codec": {
+          "kind": "text",
+          "value": [
+            "mp4a.40.2"
+          ]
+        },
+        "codec_description": {
+          "kind": "text",
+          "value": [
+            "AAC LC"
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "no-tags",
+      "sourcePythonTest": [
+        "test_mp4.py"
+      ],
+      "inputFile": "no-tags.3g2",
+      "expectedFormat": "m4a",
+      "expectedCoreInfo": {
+        "length": 15.000090702947846,
+        "bitrate": 32000,
+        "sampleRate": 22050,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "codec": {
+          "kind": "text",
+          "value": [
+            "mp4a.40.2"
+          ]
+        },
+        "codec_description": {
+          "kind": "text",
+          "value": [
+            "AAC LC"
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "no-tags",
+      "sourcePythonTest": [
+        "test_mp4.py"
+      ],
+      "inputFile": "no-tags.m4a",
+      "expectedFormat": "m4a",
+      "expectedCoreInfo": {
+        "length": 3.707936507936508,
+        "bitrate": 2914,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "codec": {
+          "kind": "text",
+          "value": [
+            "mp4a.40.2"
+          ]
+        },
+        "codec_description": {
+          "kind": "text",
+          "value": [
+            "AAC LC"
+          ]
+        }
+      },
+      "expectedError": null
+    }
+  ]
+}

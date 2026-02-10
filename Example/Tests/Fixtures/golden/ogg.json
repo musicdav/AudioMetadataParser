@@ -1,0 +1,247 @@
+{
+  "format": "ogg",
+  "cases": [
+    {
+      "caseId": "empty",
+      "sourcePythonTest": [
+        "test_aac.py",
+        "test_ac3.py",
+        "test_asf.py",
+        "test_monkeysaudio.py",
+        "test_mp4.py",
+        "test_musepack.py",
+        "test_ogg.py",
+        "test_oggflac.py",
+        "test_oggtheora.py",
+        "test_oggvorbis.py",
+        "test_optimfrog.py",
+        "test_smf.py",
+        "test_tak.py",
+        "test_trueaudio.py",
+        "test_wave.py",
+        "test_wavpack.py"
+      ],
+      "inputFile": "empty.ogg",
+      "expectedFormat": "ogg",
+      "expectedCoreInfo": {
+        "length": 3.684716553287982,
+        "bitrate": 112000,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "empty",
+      "sourcePythonTest": [
+        "test_oggflac.py",
+        "test_oggspeex.py",
+        "test_oggvorbis.py"
+      ],
+      "inputFile": "empty.oggflac",
+      "expectedFormat": "ogg",
+      "expectedCoreInfo": {
+        "length": 3.684716553287982,
+        "bitrate": null,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "empty",
+      "sourcePythonTest": [
+        "test_oggspeex.py"
+      ],
+      "inputFile": "empty.spx",
+      "expectedFormat": "ogg",
+      "expectedCoreInfo": {
+        "length": 3.684716553287982,
+        "bitrate": 0,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "example",
+      "sourcePythonTest": [
+        "test_oggopus.py"
+      ],
+      "inputFile": "example.opus",
+      "expectedFormat": "ogg",
+      "expectedCoreInfo": {
+        "length": 11.354708333333333,
+        "bitrate": null,
+        "sampleRate": null,
+        "channels": 1,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "multipage-setup",
+      "sourcePythonTest": [
+        "test_oggvorbis.py"
+      ],
+      "inputFile": "multipage-setup.ogg",
+      "expectedFormat": "ogg",
+      "expectedCoreInfo": {
+        "length": 4.128798185941043,
+        "bitrate": 160000,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "title": {
+          "kind": "text",
+          "value": [
+            "Burst"
+          ]
+        },
+        "genre": {
+          "kind": "text",
+          "value": [
+            "JRock"
+          ]
+        },
+        "comment": {
+          "kind": "text",
+          "value": [
+            "SRCL-6240"
+          ]
+        },
+        "album": {
+          "kind": "text",
+          "value": [
+            "Timeless"
+          ]
+        },
+        "artist": {
+          "kind": "text",
+          "value": [
+            "UVERworld"
+          ]
+        }
+      },
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "multipagecomment",
+      "sourcePythonTest": [
+        "test_ogg.py",
+        "test_oggvorbis.py"
+      ],
+      "inputFile": "multipagecomment.ogg",
+      "expectedFormat": "ogg",
+      "expectedCoreInfo": {
+        "length": 3.684716553287982,
+        "bitrate": 112000,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "multiplexed",
+      "sourcePythonTest": [
+        "test_oggspeex.py"
+      ],
+      "inputFile": "multiplexed.spx",
+      "expectedFormat": "ogg",
+      "expectedCoreInfo": {
+        "length": 3.684716553287982,
+        "bitrate": 0,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "sample",
+      "sourcePythonTest": [
+        "test_oggtheora.py"
+      ],
+      "inputFile": "sample.oggtheora",
+      "expectedFormat": "ogg",
+      "expectedCoreInfo": {
+        "length": 5.5,
+        "bitrate": 0,
+        "sampleRate": null,
+        "channels": null,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "sample_bitrate",
+      "sourcePythonTest": [
+        "test_oggtheora.py"
+      ],
+      "inputFile": "sample_bitrate.oggtheora",
+      "expectedFormat": "ogg",
+      "expectedCoreInfo": {
+        "length": 0.0,
+        "bitrate": 16777215,
+        "sampleRate": null,
+        "channels": null,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "sample_length",
+      "sourcePythonTest": [
+        "test_oggtheora.py"
+      ],
+      "inputFile": "sample_length.oggtheora",
+      "expectedFormat": "ogg",
+      "expectedCoreInfo": {
+        "length": 0.75,
+        "bitrate": 0,
+        "sampleRate": null,
+        "channels": null,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "title": {
+          "kind": "text",
+          "value": [
+            "Sintel Trailer"
+          ]
+        },
+        "artist": {
+          "kind": "text",
+          "value": [
+            "Durian Open Movie Team"
+          ]
+        }
+      },
+      "expectedExtensions": {},
+      "expectedError": null
+    }
+  ]
+}

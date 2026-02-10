@@ -1,0 +1,157 @@
+{
+  "format": "asf",
+  "cases": [
+    {
+      "caseId": "issue_29",
+      "sourcePythonTest": [
+        "test_asf.py"
+      ],
+      "inputFile": "issue_29.wma",
+      "expectedFormat": "asf",
+      "expectedCoreInfo": {
+        "length": 40.613,
+        "bitrate": 128016,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "Title": {
+          "kind": "text",
+          "value": [
+            "[ASFUnicodeAttribute('Señor Flamingos Adieu')]"
+          ]
+        }
+      },
+      "expectedExtensions": {
+        "codec_name": {
+          "kind": "text",
+          "value": [
+            "Windows Media Audio 9.1"
+          ]
+        },
+        "codec_description": {
+          "kind": "text",
+          "value": [
+            "128 kbps, 44 kHz, stereo 1-pass CBR"
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "silence-1",
+      "sourcePythonTest": [
+        "test_asf.py"
+      ],
+      "inputFile": "silence-1.wma",
+      "expectedFormat": "asf",
+      "expectedCoreInfo": {
+        "length": 3.712,
+        "bitrate": 64008,
+        "sampleRate": 48000,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "Title": {
+          "kind": "text",
+          "value": [
+            "[ASFUnicodeAttribute('test')]"
+          ]
+        }
+      },
+      "expectedExtensions": {
+        "codec_name": {
+          "kind": "text",
+          "value": [
+            "Windows Media Audio 9.1"
+          ]
+        },
+        "codec_description": {
+          "kind": "text",
+          "value": [
+            "64 kbps, 48 kHz, stereo 2-pass CBR"
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "silence-2",
+      "sourcePythonTest": [
+        "test_asf.py"
+      ],
+      "inputFile": "silence-2.wma",
+      "expectedFormat": "asf",
+      "expectedCoreInfo": {
+        "length": 3.684,
+        "bitrate": 38400,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "Title": {
+          "kind": "text",
+          "value": [
+            "[ASFUnicodeAttribute('test')]"
+          ]
+        }
+      },
+      "expectedExtensions": {
+        "codec_name": {
+          "kind": "text",
+          "value": [
+            "Windows Media Audio 9.1 Professional"
+          ]
+        },
+        "codec_description": {
+          "kind": "text",
+          "value": [
+            "192 kbps, 44 kHz, 2 channel 24 bit 2-pass VBR"
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "silence-3",
+      "sourcePythonTest": [
+        "test_asf.py"
+      ],
+      "inputFile": "silence-3.wma",
+      "expectedFormat": "asf",
+      "expectedCoreInfo": {
+        "length": 3.684,
+        "bitrate": 58072,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "Title": {
+          "kind": "text",
+          "value": [
+            "[ASFUnicodeAttribute('test')]"
+          ]
+        }
+      },
+      "expectedExtensions": {
+        "codec_name": {
+          "kind": "text",
+          "value": [
+            "Windows Media Audio 9.1 Lossless"
+          ]
+        },
+        "codec_description": {
+          "kind": "text",
+          "value": [
+            "VBR Quality 100, 44 kHz, 2 channel 16 bit 1-pass VBR"
+          ]
+        }
+      },
+      "expectedError": null
+    }
+  ]
+}

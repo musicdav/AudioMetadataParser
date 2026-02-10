@@ -1,0 +1,108 @@
+{
+  "format": "optimFrog",
+  "cases": [
+    {
+      "caseId": "empty",
+      "sourcePythonTest": [
+        "test_aiff.py",
+        "test_dsf.py",
+        "test_mp3.py",
+        "test_optimfrog.py"
+      ],
+      "inputFile": "empty.ofr",
+      "expectedFormat": "optimFrog",
+      "expectedCoreInfo": {
+        "length": 3.684716553287982,
+        "bitrate": null,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            "4.520"
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "empty",
+      "sourcePythonTest": [
+        "test_optimfrog.py"
+      ],
+      "inputFile": "empty.ofs",
+      "expectedFormat": "optimFrog",
+      "expectedCoreInfo": {
+        "length": 3.684716553287982,
+        "bitrate": null,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            "4.520"
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "silence-2s-44100-16",
+      "sourcePythonTest": [
+        "test_optimfrog.py"
+      ],
+      "inputFile": "silence-2s-44100-16.ofr",
+      "expectedFormat": "optimFrog",
+      "expectedCoreInfo": {
+        "length": 2.0,
+        "bitrate": null,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            "5.100"
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "silence-2s-44100-16",
+      "sourcePythonTest": [
+        "test_optimfrog.py"
+      ],
+      "inputFile": "silence-2s-44100-16.ofs",
+      "expectedFormat": "optimFrog",
+      "expectedCoreInfo": {
+        "length": 2.0,
+        "bitrate": null,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            "5.100"
+          ]
+        }
+      },
+      "expectedError": null
+    }
+  ]
+}

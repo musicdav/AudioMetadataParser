@@ -1,0 +1,1112 @@
+{
+  "format": "mp3",
+  "cases": [
+    {
+      "caseId": "97-unknown-23-update",
+      "sourcePythonTest": [
+        "test_id3.py"
+      ],
+      "inputFile": "97-unknown-23-update.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": 3.7675,
+        "bitrate": 32000,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "TIT2": {
+          "kind": "text",
+          "value": [
+            "aaaaaaaaaaaaaaaaaaaaaaa vvvvvvvvvvvvvvvvveeeeeerrrrrrrrrrrrrrrryyyyyyyyyyyyy loooooooooooooooooooooooooooooonnnnnnggggggggggggg ttttttttttttttttiiiiiiiiiiiiiittttttttttllllllllllllllleeeeeeeeeeeeeeeeeee"
+          ]
+        },
+        "TPE1": {
+          "kind": "text",
+          "value": [
+            "aaaaaaaaaaaaaaaaaaaaaaa vvvvvvvvvvvvvvvvveeeeeerrrrrrrrrrrrrrrryyyyyyyyyyyyy loooooooooooooooooooooooooooooonnnnnnggggggggggggg artist name"
+          ]
+        }
+      },
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 1
+        },
+        "layer": {
+          "kind": "int",
+          "value": 3
+        },
+        "bitrate_mode": {
+          "kind": "int",
+          "value": 0
+        },
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            ""
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "apev2-lyricsv2",
+      "sourcePythonTest": [
+        "test_apev2.py",
+        "test_mp3.py"
+      ],
+      "inputFile": "apev2-lyricsv2.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": 210.91895691609977,
+        "bitrate": 192000,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "TIT2": {
+          "kind": "text",
+          "value": [
+            "A song   "
+          ]
+        },
+        "TCON": {
+          "kind": "text",
+          "value": [
+            "House"
+          ]
+        },
+        "TPE1": {
+          "kind": "text",
+          "value": [
+            "Auth"
+          ]
+        },
+        "TDRC": {
+          "kind": "text",
+          "value": [
+            "0000"
+          ]
+        }
+      },
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 1
+        },
+        "layer": {
+          "kind": "int",
+          "value": 3
+        },
+        "bitrate_mode": {
+          "kind": "int",
+          "value": 1
+        },
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            "LAME 3.93.0+"
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "audacious-trailing-id32-apev2",
+      "sourcePythonTest": [
+        "test_id3.py"
+      ],
+      "inputFile": "audacious-trailing-id32-apev2.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": 1.0069375,
+        "bitrate": 16800,
+        "sampleRate": 16000,
+        "channels": 1,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 2
+        },
+        "layer": {
+          "kind": "int",
+          "value": 3
+        },
+        "bitrate_mode": {
+          "kind": "int",
+          "value": 3
+        },
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            "LAME 3.99.1+"
+          ]
+        },
+        "track_gain": {
+          "kind": "double",
+          "value": 0.5
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "audacious-trailing-id32-id31",
+      "sourcePythonTest": [
+        "test_id3.py"
+      ],
+      "inputFile": "audacious-trailing-id32-id31.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": 3.818,
+        "bitrate": 32000,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 1
+        },
+        "layer": {
+          "kind": "int",
+          "value": 3
+        },
+        "bitrate_mode": {
+          "kind": "int",
+          "value": 0
+        },
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            ""
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "bad-POPM-frame",
+      "sourcePythonTest": [
+        "test_id3.py"
+      ],
+      "inputFile": "bad-POPM-frame.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": 188.82526077097506,
+        "bitrate": 127698,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "TIT2": {
+          "kind": "text",
+          "value": [
+            "Emit and exude"
+          ]
+        },
+        "TRCK": {
+          "kind": "text",
+          "value": [
+            "4"
+          ]
+        },
+        "TDRC": {
+          "kind": "text",
+          "value": [
+            "2004"
+          ]
+        },
+        "TCON": {
+          "kind": "text",
+          "value": [
+            "Other"
+          ]
+        },
+        "TALB": {
+          "kind": "text",
+          "value": [
+            "emit and exude"
+          ]
+        },
+        "TCOM": {
+          "kind": "text",
+          "value": [
+            "pjat lain"
+          ]
+        },
+        "TPE1": {
+          "kind": "text",
+          "value": [
+            "she"
+          ]
+        }
+      },
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 1
+        },
+        "layer": {
+          "kind": "int",
+          "value": 3
+        },
+        "bitrate_mode": {
+          "kind": "int",
+          "value": 2
+        },
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            "LAME 3.92.0+"
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "bad-TYER-frame",
+      "sourcePythonTest": [
+        "test_id3.py"
+      ],
+      "inputFile": "bad-TYER-frame.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": 0.943625,
+        "bitrate": 320000,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "TIT2": {
+          "kind": "text",
+          "value": [
+            "This track has an invalid TYER frame, that used to be able to break Mutagen"
+          ]
+        },
+        "TPE1": {
+          "kind": "text",
+          "value": [
+            "From 1.01 To 1.02"
+          ]
+        },
+        "TALB": {
+          "kind": "text",
+          "value": [
+            "Splitted by Mp3Splt v. 2.1"
+          ]
+        }
+      },
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 1
+        },
+        "layer": {
+          "kind": "int",
+          "value": 3
+        },
+        "bitrate_mode": {
+          "kind": "int",
+          "value": 0
+        },
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            ""
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "bad-xing",
+      "sourcePythonTest": [
+        "test_mp3.py"
+      ],
+      "inputFile": "bad-xing.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": 0.0,
+        "bitrate": 48000,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "TRCK": {
+          "kind": "text",
+          "value": [
+            "12"
+          ]
+        },
+        "TIT2": {
+          "kind": "text",
+          "value": [
+            "09-28-2001"
+          ]
+        },
+        "TCON": {
+          "kind": "text",
+          "value": [
+            "Anime"
+          ]
+        },
+        "TALB": {
+          "kind": "text",
+          "value": [
+            "Patlabor CD Box Deluxe Disc 3"
+          ]
+        },
+        "TPE1": {
+          "kind": "text",
+          "value": [
+            "Ito Kazunori"
+          ]
+        },
+        "TXXX:replaygain_track_gain": {
+          "kind": "text",
+          "value": [
+            "-0.61 dB"
+          ]
+        },
+        "TXXX:replaygain_track_peak": {
+          "kind": "text",
+          "value": [
+            "1.039857"
+          ]
+        },
+        "TXXX:replaygain_album_gain": {
+          "kind": "text",
+          "value": [
+            "-5.44 dB"
+          ]
+        },
+        "TXXX:replaygain_album_peak": {
+          "kind": "text",
+          "value": [
+            "1.136102"
+          ]
+        },
+        "TDRC": {
+          "kind": "text",
+          "value": [
+            "1992"
+          ]
+        }
+      },
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 1
+        },
+        "layer": {
+          "kind": "int",
+          "value": 3
+        },
+        "bitrate_mode": {
+          "kind": "int",
+          "value": 2
+        },
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            ""
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "emptyfile",
+      "sourcePythonTest": [
+        "test_apev2.py",
+        "test_id3.py",
+        "test_mp3.py",
+        "test_musepack.py"
+      ],
+      "inputFile": "emptyfile.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": null,
+        "bitrate": null,
+        "sampleRate": null,
+        "channels": null,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": {
+        "code": "invalidHeader",
+        "message": "can't sync to MPEG frame"
+      }
+    },
+    {
+      "caseId": "id3v1v2-combined",
+      "sourcePythonTest": [
+        "test_id3.py"
+      ],
+      "inputFile": "id3v1v2-combined.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": 0.15115,
+        "bitrate": 160000,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "TIT2": {
+          "kind": "text",
+          "value": [
+            "cosmic american"
+          ]
+        },
+        "TPE1": {
+          "kind": "text",
+          "value": [
+            "Anais Mitchell"
+          ]
+        },
+        "TRCK": {
+          "kind": "text",
+          "value": [
+            "3/11"
+          ]
+        },
+        "TENC": {
+          "kind": "text",
+          "value": [
+            "iTunes v4.6"
+          ]
+        },
+        "TALB": {
+          "kind": "text",
+          "value": [
+            "Hymns for the Exiled"
+          ]
+        },
+        "TDRC": {
+          "kind": "text",
+          "value": [
+            "1337"
+          ]
+        }
+      },
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 1
+        },
+        "layer": {
+          "kind": "int",
+          "value": 3
+        },
+        "bitrate_mode": {
+          "kind": "int",
+          "value": 0
+        },
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            ""
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "id3v22-test",
+      "sourcePythonTest": [
+        "test_id3.py"
+      ],
+      "inputFile": "id3v22-test.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": 0.14475,
+        "bitrate": 160000,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "TIT2": {
+          "kind": "text",
+          "value": [
+            "cosmic american"
+          ]
+        },
+        "TPE1": {
+          "kind": "text",
+          "value": [
+            "Anais Mitchell"
+          ]
+        },
+        "TALB": {
+          "kind": "text",
+          "value": [
+            "Hymns for the Exiled"
+          ]
+        },
+        "TRCK": {
+          "kind": "text",
+          "value": [
+            "3/11"
+          ]
+        },
+        "TENC": {
+          "kind": "text",
+          "value": [
+            "iTunes v4.6"
+          ]
+        },
+        "TDRC": {
+          "kind": "text",
+          "value": [
+            "2004"
+          ]
+        }
+      },
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 1
+        },
+        "layer": {
+          "kind": "int",
+          "value": 3
+        },
+        "bitrate_mode": {
+          "kind": "int",
+          "value": 0
+        },
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            ""
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "lame-peak",
+      "sourcePythonTest": [
+        "test_mp3.py"
+      ],
+      "inputFile": "lame-peak.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": 0.061609977324263036,
+        "bitrate": 127936,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 1
+        },
+        "layer": {
+          "kind": "int",
+          "value": 3
+        },
+        "bitrate_mode": {
+          "kind": "int",
+          "value": 1
+        },
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            "LAME 3.99.1+"
+          ]
+        },
+        "track_gain": {
+          "kind": "double",
+          "value": 6.8
+        },
+        "track_peak": {
+          "kind": "double",
+          "value": 0.21856749057769775
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "lame",
+      "sourcePythonTest": [
+        "test_mp3.py"
+      ],
+      "inputFile": "lame.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": 0.061609977324263036,
+        "bitrate": 127783,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 1
+        },
+        "layer": {
+          "kind": "int",
+          "value": 3
+        },
+        "bitrate_mode": {
+          "kind": "int",
+          "value": 2
+        },
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            "LAME 3.99.1+"
+          ]
+        },
+        "track_gain": {
+          "kind": "double",
+          "value": 6.0
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "lame397v9short",
+      "sourcePythonTest": [
+        "test_mp3.py"
+      ],
+      "inputFile": "lame397v9short.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": 0.0,
+        "bitrate": 40000,
+        "sampleRate": 24000,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 2
+        },
+        "layer": {
+          "kind": "int",
+          "value": 3
+        },
+        "bitrate_mode": {
+          "kind": "int",
+          "value": 2
+        },
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            "LAME 3.97.0"
+          ]
+        },
+        "track_gain": {
+          "kind": "double",
+          "value": 14.4
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "silence-44-s-mpeg2",
+      "sourcePythonTest": [
+        "test_mp3.py"
+      ],
+      "inputFile": "silence-44-s-mpeg2.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": 3.6847083333333335,
+        "bitrate": 17783,
+        "sampleRate": 24000,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 2
+        },
+        "layer": {
+          "kind": "int",
+          "value": 3
+        },
+        "bitrate_mode": {
+          "kind": "int",
+          "value": 2
+        },
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            "LAME 3.98.1+"
+          ]
+        },
+        "track_gain": {
+          "kind": "double",
+          "value": 51.0
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "silence-44-s-mpeg25",
+      "sourcePythonTest": [
+        "test_mp3.py"
+      ],
+      "inputFile": "silence-44-s-mpeg25.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": 3.68475,
+        "bitrate": 8900,
+        "sampleRate": 12000,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "version": {
+          "kind": "double",
+          "value": 2.5
+        },
+        "layer": {
+          "kind": "int",
+          "value": 3
+        },
+        "bitrate_mode": {
+          "kind": "int",
+          "value": 2
+        },
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            "LAME 3.98.1+"
+          ]
+        },
+        "track_gain": {
+          "kind": "double",
+          "value": 51.0
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "silence-44-s-v1",
+      "sourcePythonTest": [
+        "test_id3.py",
+        "test_mp3.py"
+      ],
+      "inputFile": "silence-44-s-v1.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": 3.7675,
+        "bitrate": 32000,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "TIT2": {
+          "kind": "text",
+          "value": [
+            "Silence"
+          ]
+        },
+        "TPE1": {
+          "kind": "text",
+          "value": [
+            "piman"
+          ]
+        },
+        "TALB": {
+          "kind": "text",
+          "value": [
+            "Quod Libet Test Data"
+          ]
+        },
+        "TDRC": {
+          "kind": "text",
+          "value": [
+            "2004"
+          ]
+        },
+        "TRCK": {
+          "kind": "text",
+          "value": [
+            "2"
+          ]
+        },
+        "TCON": {
+          "kind": "text",
+          "value": [
+            "Darkwave"
+          ]
+        }
+      },
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 1
+        },
+        "layer": {
+          "kind": "int",
+          "value": 3
+        },
+        "bitrate_mode": {
+          "kind": "int",
+          "value": 0
+        },
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            ""
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "silence-44-s",
+      "sourcePythonTest": [
+        "test_aac.py",
+        "test_ac3.py",
+        "test_flac.py",
+        "test_id3.py",
+        "test_mp3.py"
+      ],
+      "inputFile": "silence-44-s.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": 3.7675,
+        "bitrate": 32000,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "TCON": {
+          "kind": "text",
+          "value": [
+            "Silence"
+          ]
+        },
+        "TLEN": {
+          "kind": "text",
+          "value": [
+            "3000"
+          ]
+        },
+        "TALB": {
+          "kind": "text",
+          "value": [
+            "Quod Libet Test Data"
+          ]
+        },
+        "TPE1": {
+          "kind": "text",
+          "value": [
+            "piman",
+            "jzig"
+          ]
+        },
+        "TIT2": {
+          "kind": "text",
+          "value": [
+            "Silence"
+          ]
+        },
+        "TRCK": {
+          "kind": "text",
+          "value": [
+            "02/10"
+          ]
+        },
+        "TIT1": {
+          "kind": "text",
+          "value": [
+            "Silence"
+          ]
+        },
+        "TDRC": {
+          "kind": "text",
+          "value": [
+            "2004"
+          ]
+        }
+      },
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 1
+        },
+        "layer": {
+          "kind": "int",
+          "value": 3
+        },
+        "bitrate_mode": {
+          "kind": "int",
+          "value": 0
+        },
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            ""
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "too-short",
+      "sourcePythonTest": [
+        "test_mp3.py"
+      ],
+      "inputFile": "too-short.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": null,
+        "bitrate": null,
+        "sampleRate": null,
+        "channels": null,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": {
+        "code": "invalidHeader",
+        "message": "can't sync to MPEG frame"
+      }
+    },
+    {
+      "caseId": "vbri",
+      "sourcePythonTest": [
+        "test_mp3.py"
+      ],
+      "inputFile": "vbri.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": 222.19755102040816,
+        "bitrate": 233260,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "TRCK": {
+          "kind": "text",
+          "value": [
+            "01"
+          ]
+        },
+        "TCON": {
+          "kind": "text",
+          "value": [
+            "Dance"
+          ]
+        },
+        "TALB": {
+          "kind": "text",
+          "value": [
+            "I Can Walk On Water I Can Fly"
+          ]
+        },
+        "TPE1": {
+          "kind": "text",
+          "value": [
+            "Basshunter"
+          ]
+        },
+        "TIT2": {
+          "kind": "text",
+          "value": [
+            "I Can Walk On Water I Can Fly"
+          ]
+        },
+        "TDRC": {
+          "kind": "text",
+          "value": [
+            "2007"
+          ]
+        }
+      },
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 1
+        },
+        "layer": {
+          "kind": "int",
+          "value": 3
+        },
+        "bitrate_mode": {
+          "kind": "int",
+          "value": 2
+        },
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            "FhG"
+          ]
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "xing",
+      "sourcePythonTest": [
+        "test_apev2.py",
+        "test_flac.py",
+        "test_mp3.py",
+        "test_ogg.py"
+      ],
+      "inputFile": "xing.mp3",
+      "expectedFormat": "mp3",
+      "expectedCoreInfo": {
+        "length": 2.052,
+        "bitrate": 32000,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 1
+        },
+        "layer": {
+          "kind": "int",
+          "value": 3
+        },
+        "bitrate_mode": {
+          "kind": "int",
+          "value": 0
+        },
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            ""
+          ]
+        }
+      },
+      "expectedError": null
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "format": "eac3",
+  "cases": [
+    {
+      "caseId": "silence-44-s",
+      "sourcePythonTest": [
+        "test_ac3.py"
+      ],
+      "inputFile": "silence-44-s.eac3",
+      "expectedFormat": "eac3",
+      "expectedCoreInfo": {
+        "length": 3.700123721673218,
+        "bitrate": 191559,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "codec": {
+          "kind": "text",
+          "value": [
+            "ec-3"
+          ]
+        }
+      },
+      "expectedError": null
+    }
+  ]
+}

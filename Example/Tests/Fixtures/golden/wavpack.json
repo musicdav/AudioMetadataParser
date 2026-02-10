@@ -1,0 +1,105 @@
+{
+  "format": "wavpack",
+  "cases": [
+    {
+      "caseId": "dsd",
+      "sourcePythonTest": [
+        "test_wavpack.py"
+      ],
+      "inputFile": "dsd.wv",
+      "expectedFormat": "wavpack",
+      "expectedCoreInfo": {
+        "length": 0.01,
+        "bitrate": null,
+        "sampleRate": 352800,
+        "channels": 2,
+        "bitsPerSample": 1
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 1040
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "no_length",
+      "sourcePythonTest": [
+        "test_wavpack.py"
+      ],
+      "inputFile": "no_length.wv",
+      "expectedFormat": "wavpack",
+      "expectedCoreInfo": {
+        "length": 3.705034013605442,
+        "bitrate": null,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 1031
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "silence-44-s",
+      "sourcePythonTest": [
+        "test_wavpack.py"
+      ],
+      "inputFile": "silence-44-s.wv",
+      "expectedFormat": "wavpack",
+      "expectedCoreInfo": {
+        "length": 3.684716553287982,
+        "bitrate": null,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {
+        "Track": {
+          "kind": "text",
+          "value": [
+            "02/10"
+          ]
+        },
+        "Title": {
+          "kind": "text",
+          "value": [
+            "Silence"
+          ]
+        },
+        "Genre": {
+          "kind": "text",
+          "value": [
+            "Silence"
+          ]
+        },
+        "Artist": {
+          "kind": "text",
+          "value": [
+            "piman\u0000jzig"
+          ]
+        },
+        "Album": {
+          "kind": "text",
+          "value": [
+            "Quod Libet Test Data"
+          ]
+        }
+      },
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 1027
+        }
+      },
+      "expectedError": null
+    }
+  ]
+}

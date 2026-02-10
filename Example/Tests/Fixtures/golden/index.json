@@ -1,0 +1,114 @@
+{
+  "files": [
+    {
+      "format": "aac",
+      "file": "aac.json",
+      "count": 2
+    },
+    {
+      "format": "ac3",
+      "file": "ac3.json",
+      "count": 1
+    },
+    {
+      "format": "aiff",
+      "file": "aiff.json",
+      "count": 6
+    },
+    {
+      "format": "apev2",
+      "file": "apev2.json",
+      "count": 3
+    },
+    {
+      "format": "asf",
+      "file": "asf.json",
+      "count": 4
+    },
+    {
+      "format": "dsdiff",
+      "file": "dsdiff.json",
+      "count": 3
+    },
+    {
+      "format": "dsf",
+      "file": "dsf.json",
+      "count": 4
+    },
+    {
+      "format": "eac3",
+      "file": "eac3.json",
+      "count": 1
+    },
+    {
+      "format": "flac",
+      "file": "flac.json",
+      "count": 9
+    },
+    {
+      "format": "id3",
+      "file": "id3.json",
+      "count": 3
+    },
+    {
+      "format": "m4a",
+      "file": "m4a.json",
+      "count": 8
+    },
+    {
+      "format": "monkeysAudio",
+      "file": "monkeysAudio.json",
+      "count": 3
+    },
+    {
+      "format": "mp3",
+      "file": "mp3.json",
+      "count": 20
+    },
+    {
+      "format": "mp4",
+      "file": "mp4.json",
+      "count": 2
+    },
+    {
+      "format": "musepack",
+      "file": "musepack.json",
+      "count": 5
+    },
+    {
+      "format": "ogg",
+      "file": "ogg.json",
+      "count": 10
+    },
+    {
+      "format": "optimFrog",
+      "file": "optimFrog.json",
+      "count": 4
+    },
+    {
+      "format": "smf",
+      "file": "smf.json",
+      "count": 1
+    },
+    {
+      "format": "tak",
+      "file": "tak.json",
+      "count": 2
+    },
+    {
+      "format": "trueAudio",
+      "file": "trueAudio.json",
+      "count": 1
+    },
+    {
+      "format": "wave",
+      "file": "wave.json",
+      "count": 3
+    },
+    {
+      "format": "wavpack",
+      "file": "wavpack.json",
+      "count": 3
+    }
+  ]
+}

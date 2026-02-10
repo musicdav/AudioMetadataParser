@@ -1,0 +1,121 @@
+{
+  "format": "id3",
+  "cases": [
+    {
+      "caseId": "id3v23_unsynch",
+      "sourcePythonTest": [
+        "test_id3.py"
+      ],
+      "inputFile": "id3v23_unsynch.id3",
+      "expectedFormat": "id3",
+      "expectedCoreInfo": {
+        "length": null,
+        "bitrate": null,
+        "sampleRate": null,
+        "channels": null,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": {
+        "code": "invalidHeader",
+        "message": "can't sync to MPEG frame"
+      }
+    },
+    {
+      "caseId": "id3v24_extended_header",
+      "sourcePythonTest": [
+        "test_id3.py"
+      ],
+      "inputFile": "id3v24_extended_header.id3",
+      "expectedFormat": "id3",
+      "expectedCoreInfo": {
+        "length": null,
+        "bitrate": null,
+        "sampleRate": null,
+        "channels": null,
+        "bitsPerSample": null
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": {
+        "code": "invalidHeader",
+        "message": "can't sync to MPEG frame"
+      }
+    },
+    {
+      "caseId": "issue_21",
+      "sourcePythonTest": [
+        "test_id3.py"
+      ],
+      "inputFile": "issue_21.id3",
+      "expectedFormat": "id3",
+      "expectedCoreInfo": {
+        "length": 0.98990625,
+        "bitrate": 256000,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": null
+      },
+      "expectedTags": {
+        "TIT2": {
+          "kind": "text",
+          "value": [
+            "Punk To Funk"
+          ]
+        },
+        "TALB": {
+          "kind": "text",
+          "value": [
+            "Better Living Through Chemistr"
+          ]
+        },
+        "TRCK": {
+          "kind": "text",
+          "value": [
+            "9"
+          ]
+        },
+        "TDRC": {
+          "kind": "text",
+          "value": [
+            "1996"
+          ]
+        },
+        "TPE1": {
+          "kind": "text",
+          "value": [
+            "FatBoy Slim"
+          ]
+        },
+        "TCON": {
+          "kind": "text",
+          "value": [
+            "Bigbeat"
+          ]
+        }
+      },
+      "expectedExtensions": {
+        "version": {
+          "kind": "int",
+          "value": 1
+        },
+        "layer": {
+          "kind": "int",
+          "value": 3
+        },
+        "bitrate_mode": {
+          "kind": "int",
+          "value": 0
+        },
+        "encoder_info": {
+          "kind": "text",
+          "value": [
+            ""
+          ]
+        }
+      },
+      "expectedError": null
+    }
+  ]
+}

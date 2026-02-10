@@ -1,0 +1,74 @@
+{
+  "format": "monkeysAudio",
+  "cases": [
+    {
+      "caseId": "mac-390-hdr",
+      "sourcePythonTest": [
+        "test_monkeysaudio.py"
+      ],
+      "inputFile": "mac-390-hdr.ape",
+      "expectedFormat": "monkeysAudio",
+      "expectedCoreInfo": {
+        "length": 15.629523809523809,
+        "bitrate": null,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "version": {
+          "kind": "double",
+          "value": 3.9
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "mac-396",
+      "sourcePythonTest": [
+        "test_monkeysaudio.py"
+      ],
+      "inputFile": "mac-396.ape",
+      "expectedFormat": "monkeysAudio",
+      "expectedCoreInfo": {
+        "length": 3.684716553287982,
+        "bitrate": null,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "version": {
+          "kind": "double",
+          "value": 3.96
+        }
+      },
+      "expectedError": null
+    },
+    {
+      "caseId": "mac-399",
+      "sourcePythonTest": [
+        "test_monkeysaudio.py"
+      ],
+      "inputFile": "mac-399.ape",
+      "expectedFormat": "monkeysAudio",
+      "expectedCoreInfo": {
+        "length": 3.684716553287982,
+        "bitrate": null,
+        "sampleRate": 44100,
+        "channels": 2,
+        "bitsPerSample": 16
+      },
+      "expectedTags": {},
+      "expectedExtensions": {
+        "version": {
+          "kind": "double",
+          "value": 3.99
+        }
+      },
+      "expectedError": null
+    }
+  ]
+}

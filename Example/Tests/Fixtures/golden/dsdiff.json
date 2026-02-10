@@ -1,0 +1,59 @@
+{
+  "format": "dsdiff",
+  "cases": [
+    {
+      "caseId": "2822400-1ch-0s-silence",
+      "sourcePythonTest": [
+        "test_dsdiff.py"
+      ],
+      "inputFile": "2822400-1ch-0s-silence.dff",
+      "expectedFormat": "dsdiff",
+      "expectedCoreInfo": {
+        "length": 0.0,
+        "bitrate": 2822400,
+        "sampleRate": 2822400,
+        "channels": 1,
+        "bitsPerSample": 1
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "5644800-2ch-s01-silence-dst",
+      "sourcePythonTest": [
+        "test_dsdiff.py"
+      ],
+      "inputFile": "5644800-2ch-s01-silence-dst.dff",
+      "expectedFormat": "dsdiff",
+      "expectedCoreInfo": {
+        "length": 0.0,
+        "bitrate": 0,
+        "sampleRate": 5644800,
+        "channels": 2,
+        "bitsPerSample": 1
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    },
+    {
+      "caseId": "5644800-2ch-s01-silence",
+      "sourcePythonTest": [
+        "test_dsdiff.py"
+      ],
+      "inputFile": "5644800-2ch-s01-silence.dff",
+      "expectedFormat": "dsdiff",
+      "expectedCoreInfo": {
+        "length": 0.01,
+        "bitrate": 11289600,
+        "sampleRate": 5644800,
+        "channels": 2,
+        "bitsPerSample": 1
+      },
+      "expectedTags": {},
+      "expectedExtensions": {},
+      "expectedError": null
+    }
+  ]
+}
