@@ -2,6 +2,7 @@ import Foundation
 
 private struct OggPage {
     let offset: Int64
+    let headerType: UInt8
     let granulePosition: Int64
     let serial: UInt32
     let segments: [UInt8]
@@ -25,6 +26,7 @@ struct OggFamilyParser: FormatParser {
             throw AudioMetadataError(code: .ioFailure, message: "unknown file length")
         }
 
+        let maxPacketsPerSerial = 8
         var cursor: Int64 = 0
         var packetsBySerial: [UInt32: [Data]] = [:]
         var packetBufferBySerial: [UInt32: Data] = [:]
@@ -65,7 +67,9 @@ struct OggFamilyParser: FormatParser {
                 packetBuffer.append(page.payload.subdata(in: payloadCursor ..< payloadCursor + len))
                 payloadCursor += len
                 if len < 255 {
-                    packets.append(packetBuffer)
+                    if packets.count < maxPacketsPerSerial {
+                        packets.append(packetBuffer)
+                    }
                     packetBuffer.removeAll(keepingCapacity: true)
                 }
             }
@@ -79,12 +83,10 @@ struct OggFamilyParser: FormatParser {
                 selectedSerial = page.serial
             }
 
-            if let serial = selectedSerial {
-                let packetCount = packetsBySerial[serial]?.count ?? 0
-                let granule = lastGranuleBySerial[serial] ?? 0
-                if packetCount >= 8 && granule > 0 {
-                    break
-                }
+            if let serial = selectedSerial,
+               page.serial == serial,
+               (page.headerType & 0x04) != 0 {
+                break
             }
         }
 
@@ -110,6 +112,7 @@ struct OggFamilyParser: FormatParser {
         var bitrate: Int?
         var theoraFPS: Double?
         var theoraGranuleShift: Int?
+        var opusPreSkip: Int?
 
         if firstPacket.count >= 7,
            firstPacket[0] == 0x01,
@@ -128,6 +131,9 @@ struct OggFamilyParser: FormatParser {
             sampleRate = 48_000
             if firstPacket.count >= 10 {
                 channels = Int(firstPacket[9])
+            }
+            if firstPacket.count >= 12 {
+                opusPreSkip = Int(firstPacket[10]) | (Int(firstPacket[11]) << 8)
             }
             if packets.count > 1, packets[1].count >= 8,
                String(decoding: packets[1].prefix(8), as: Unicode.ASCII.self) == "OpusTags" {
@@ -194,6 +200,14 @@ struct OggFamilyParser: FormatParser {
             let mask = shift > 0 ? ((UInt64(1) << shift) - 1) : 0
             let frames = (position >> shift) + (position & mask)
             length = Double(frames) / fps
+        } else if detectedFormat == .oggOpus,
+                  let sampleRate,
+                  let granule = lastGranule,
+                  sampleRate > 0,
+                  granule > 0 {
+            let preSkip = opusPreSkip ?? 0
+            let effectiveSamples = max(0, granule - Int64(preSkip))
+            length = effectiveSamples > 0 ? Double(effectiveSamples) / Double(sampleRate) : nil
         } else if let sampleRate, let granule = lastGranule, sampleRate > 0, granule > 0 {
             length = Double(granule) / Double(sampleRate)
         } else {
@@ -306,6 +320,7 @@ struct OggFamilyParser: FormatParser {
 
         return OggPage(
             offset: offset,
+            headerType: fixedHeader[5],
             granulePosition: granule,
             serial: serial,
             segments: Array(segmentTable),
