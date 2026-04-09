@@ -20,15 +20,20 @@ enum TagParsers {
         }
 
         let version = Int(header[3])
+        let headerFlags = header[5]
         let tagSize = parseSynchsafeInt(header.subdata(in: 6..<10))
-        let fullSize = 10 + tagSize
+        let hasFooter = version >= 4 && (headerFlags & 0x10) != 0
+        let fullSize = 10 + tagSize + (hasFooter ? 10 : 0)
         let payload = try reader.read(at: offset + 10, length: tagSize)
         if payload.count < tagSize {
             throw AudioMetadataError(code: .truncatedData, message: "truncated id3 payload", offset: offset)
         }
 
+        let tagUnsynchronised = (headerFlags & 0x80) != 0
+        let frameStart = parseID3ExtendedHeaderSize(payload: payload, version: version, headerFlags: headerFlags)
+
         var tags: [String: MetadataTagValue] = [:]
-        var cursor = 0
+        var cursor = frameStart
 
         while cursor + 10 <= payload.count {
             let frameHeader = payload.subdata(in: cursor ..< cursor + 10)
@@ -54,8 +59,16 @@ enum TagParsers {
                 break
             }
 
-            let frameData = payload.subdata(in: cursor ..< cursor + frameSize)
+            let rawFrameData = payload.subdata(in: cursor ..< cursor + frameSize)
             cursor += frameSize
+            guard let frameData = normalizeID3FrameData(
+                rawFrameData: rawFrameData,
+                frameHeader: frameHeader,
+                version: version,
+                tagUnsynchronised: tagUnsynchronised
+            ) else {
+                continue
+            }
 
             if frameID.hasPrefix("T") && frameID != "TXXX" {
                 if let text = decodeID3TextFrame(frameData) {
@@ -86,6 +99,164 @@ enum TagParsers {
         }
 
         return (tags, fullSize)
+    }
+
+    private static func parseID3ExtendedHeaderSize(payload: Data, version: Int, headerFlags: UInt8) -> Int {
+        guard (headerFlags & 0x40) != 0 else { return 0 }
+        if startsWithLikelyID3Frame(payload: payload, version: version) {
+            // Some files set the extended-header bit but place frames directly after the tag header.
+            return 0
+        }
+        guard payload.count >= 4 else { return payload.count }
+
+        let extSizeData = payload.subdata(in: 0..<4)
+        if version >= 4 {
+            // ID3v2.4 uses synchsafe size and commonly includes the size field itself.
+            let size = parseSynchsafeInt(extSizeData)
+            if size >= 4, size <= payload.count {
+                return size
+            }
+            let fallback = 4 + size
+            if fallback <= payload.count {
+                return fallback
+            }
+            return 0
+        }
+
+        // ID3v2.3 uses a 32-bit BE size that commonly excludes the size field.
+        let size = Int(extSizeData[0]) << 24 | Int(extSizeData[1]) << 16 | Int(extSizeData[2]) << 8 | Int(extSizeData[3])
+        let total = 4 + size
+        if total <= payload.count {
+            return total
+        }
+        if size <= payload.count {
+            return size
+        }
+        return 0
+    }
+
+    private static func startsWithLikelyID3Frame(payload: Data, version: Int) -> Bool {
+        guard version >= 3 else { return false }
+        guard payload.count >= 10 else { return false }
+
+        let frameHeader = payload.subdata(in: 0..<10)
+        if frameHeader.allSatisfy({ $0 == 0 }) {
+            return false
+        }
+
+        let frameID = String(decoding: frameHeader.prefix(4), as: Unicode.ASCII.self)
+        guard frameID.range(of: "^[A-Z0-9]{4}$", options: .regularExpression) != nil else {
+            return false
+        }
+
+        let rawSize = frameHeader.subdata(in: 4..<8)
+        let frameSize: Int
+        if version >= 4 {
+            frameSize = parseSynchsafeInt(rawSize)
+        } else {
+            frameSize = Int(rawSize[0]) << 24 | Int(rawSize[1]) << 16 | Int(rawSize[2]) << 8 | Int(rawSize[3])
+        }
+        return frameSize > 0 && frameSize + 10 <= payload.count
+    }
+
+    private static func normalizeID3FrameData(
+        rawFrameData: Data,
+        frameHeader: Data,
+        version: Int,
+        tagUnsynchronised: Bool
+    ) -> Data? {
+        guard frameHeader.count == 10 else { return nil }
+        guard !rawFrameData.isEmpty else { return Data() }
+
+        if version >= 4 {
+            return normalizeID3v24FrameData(
+                rawFrameData: rawFrameData,
+                formatFlags: frameHeader[9],
+                tagUnsynchronised: tagUnsynchronised
+            )
+        }
+
+        return normalizeID3v23FrameData(
+            rawFrameData: rawFrameData,
+            formatFlags: frameHeader[9],
+            tagUnsynchronised: tagUnsynchronised
+        )
+    }
+
+    private static func normalizeID3v23FrameData(
+        rawFrameData: Data,
+        formatFlags: UInt8,
+        tagUnsynchronised: Bool
+    ) -> Data? {
+        // ID3v2.3 format flags.
+        let isCompressed = (formatFlags & 0x80) != 0
+        let isEncrypted = (formatFlags & 0x40) != 0
+        let hasGroupingIdentity = (formatFlags & 0x20) != 0
+        if isEncrypted || isCompressed {
+            return nil
+        }
+
+        var cursor = 0
+        if hasGroupingIdentity {
+            cursor += 1
+        }
+        guard cursor <= rawFrameData.count else { return nil }
+
+        var normalized = rawFrameData.subdata(in: cursor..<rawFrameData.count)
+        if tagUnsynchronised {
+            normalized = decodeID3Unsynchronisation(normalized)
+        }
+        return normalized
+    }
+
+    private static func normalizeID3v24FrameData(
+        rawFrameData: Data,
+        formatFlags: UInt8,
+        tagUnsynchronised: Bool
+    ) -> Data? {
+        // ID3v2.4 format flags.
+        let hasGroupingIdentity = (formatFlags & 0x40) != 0
+        let isCompressed = (formatFlags & 0x08) != 0
+        let isEncrypted = (formatFlags & 0x04) != 0
+        let isUnsynchronised = (formatFlags & 0x02) != 0
+        let hasDataLengthIndicator = (formatFlags & 0x01) != 0
+        if isEncrypted || isCompressed {
+            return nil
+        }
+
+        var cursor = 0
+        if hasGroupingIdentity {
+            cursor += 1
+        }
+        if hasDataLengthIndicator {
+            cursor += 4
+        }
+        guard cursor <= rawFrameData.count else { return nil }
+
+        var normalized = rawFrameData.subdata(in: cursor..<rawFrameData.count)
+        if tagUnsynchronised || isUnsynchronised {
+            normalized = decodeID3Unsynchronisation(normalized)
+        }
+        return normalized
+    }
+
+    private static func decodeID3Unsynchronisation(_ data: Data) -> Data {
+        guard !data.isEmpty else { return data }
+
+        var output = Data()
+        output.reserveCapacity(data.count)
+
+        var index = 0
+        while index < data.count {
+            let byte = data[index]
+            output.append(byte)
+            if byte == 0xFF, index + 1 < data.count, data[index + 1] == 0x00 {
+                index += 1
+            }
+            index += 1
+        }
+
+        return output
     }
 
     private static func decodeID3TextFrame(_ data: Data) -> [String]? {

@@ -251,6 +251,25 @@ final class AudioMetadataGoldenTests: XCTestCase {
         XCTAssertNotNil(withData.primaryCoverArt?.data, "primaryCoverArt should expose APIC payload when enabled")
     }
 
+    func testID3v24APICUnsyncWithDataLengthIndicator() throws {
+        let url = fixtureDirectory.appendingPathComponent("问心.mp3")
+        XCTAssertTrue(FileManager.default.fileExists(atPath: url.path), "missing fixture 问心.mp3")
+
+        let parser = AudioMetadataParser(options: ParseOptions(includeBinaryData: true, maxBinaryTagBytes: 4 * 1024 * 1024))
+        let result = try awaitResult { try await parser.parse(url: url) }
+        let cover = requireBinaryTag("APIC", from: result.tags, context: "id3v24-unsync-dli")
+
+        XCTAssertEqual(cover.mime, "image/png", "APIC mime should be parsed correctly")
+        XCTAssertNotNil(cover.data, "includeBinaryData=true should embed APIC payload")
+        XCTAssertNotNil(result.primaryCoverArt?.data, "primaryCoverArt should expose APIC payload")
+        XCTAssertGreaterThan(cover.size, 100_000, "fixture assumption broken: expected large cover payload")
+
+        guard let payload = cover.data else { return }
+        XCTAssertEqual(payload.count, cover.size, "embedded APIC payload size mismatch")
+        let pngSignature = Data([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A])
+        XCTAssertEqual(Data(payload.prefix(pngSignature.count)), pngSignature, "APIC payload should start with PNG signature")
+    }
+
     func testBinaryTagPayloadRespectsSizeLimit() throws {
         let url = fixtureDirectory.appendingPathComponent("covr-with-name.m4a")
         XCTAssertTrue(FileManager.default.fileExists(atPath: url.path), "missing fixture covr-with-name.m4a")
