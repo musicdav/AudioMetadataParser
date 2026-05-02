@@ -41,6 +41,7 @@ struct FLACParser: FormatParser {
         var bitsPerSample: Int?
         var totalSamples: UInt64?
         var hasStreamInfo = false
+        var audioStart: Int64?
 
         while !isLast {
             let blockHeader = try reader.read(at: cursor, length: 4)
@@ -57,6 +58,7 @@ struct FLACParser: FormatParser {
                     throw AudioMetadataError(code: .truncatedData, message: "flac streaminfo block truncated", offset: cursor)
                 }
                 extensions["flac_metadata_truncated"] = .bool(true)
+                audioStart = try findFrameSync(reader: reader, start: cursor, fileLength: fileLength)
                 break
             }
 
@@ -66,6 +68,9 @@ struct FLACParser: FormatParser {
                     throw AudioMetadataError(code: .truncatedData, message: "flac streaminfo block truncated", offset: cursor)
                 }
                 extensions["flac_metadata_truncated"] = .bool(true)
+                if let fileLength = reader.length {
+                    audioStart = try findFrameSync(reader: reader, start: cursor, fileLength: fileLength)
+                }
                 break
             }
 
@@ -101,6 +106,9 @@ struct FLACParser: FormatParser {
 
             cursor += Int64(blockLength)
         }
+        if audioStart == nil {
+            audioStart = cursor
+        }
 
         let length: Double?
         if let totalSamples, let sampleRate, sampleRate > 0 {
@@ -109,7 +117,13 @@ struct FLACParser: FormatParser {
             length = nil
         }
 
-        let bitrate = ParserHelpers.bitrate(lengthSeconds: length, fileSizeBytes: reader.length)
+        let audioByteCount: Int64?
+        if let fileLength = reader.length, let audioStart, fileLength > audioStart {
+            audioByteCount = fileLength - audioStart
+        } else {
+            audioByteCount = nil
+        }
+        let bitrate = ParserHelpers.bitrate(lengthSeconds: length, fileSizeBytes: audioByteCount)
 
         return ParsedAudioMetadata(
             format: .flac,
@@ -160,5 +174,15 @@ struct FLACParser: FormatParser {
             | (Int(data[offset + 1]) << 16)
             | (Int(data[offset + 2]) << 8)
             | Int(data[offset + 3])
+    }
+
+    private func findFrameSync(reader: WindowedReader, start: Int64, fileLength: Int64) throws -> Int64? {
+        let scanLength = Int(min(128 * 1024, max(0, fileLength - start)))
+        let data = try reader.read(at: start, length: scanLength)
+        guard data.count >= 2 else { return nil }
+        for index in 0..<(data.count - 1) where data[index] == 0xFF && (data[index + 1] & 0xFC) == 0xF8 {
+            return start + Int64(index)
+        }
+        return nil
     }
 }

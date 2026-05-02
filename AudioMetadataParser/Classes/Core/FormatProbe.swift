@@ -59,9 +59,13 @@ struct FormatProbe {
         if header.count >= 4 && String(decoding: header.prefix(4), as: Unicode.ASCII.self) == "tBaK" { bump(.tak, 100) }
         if header.count >= 4 && String(decoding: header.prefix(4), as: Unicode.ASCII.self) == "APET" { bump(.apev2, 90) }
 
-        if header.count >= 4 && header[0] == 0xFF && (header[1] & 0xF0) == 0xF0 {
-            bump(.aac, 65)
-            bump(.mp3, 30)
+        if Self.isADTSHeader(header) {
+            bump(.aac, 90)
+        } else if Self.isMPEGHeader(header) {
+            bump(.mp3, 90)
+            if ext == "aac" {
+                bump(.aac, 20)
+            }
         }
         if header.count >= 4 && header[0] == 0x0B && header[1] == 0x77 {
             bump(.ac3, 100)
@@ -79,5 +83,32 @@ struct FormatProbe {
                 }
                 return lhs.score > rhs.score
             }
+    }
+
+    static func isMPEGHeader(_ data: Data) -> Bool {
+        guard data.count >= 4, data[0] == 0xFF, (data[1] & 0xE0) == 0xE0 else {
+            return false
+        }
+        let versionBits = (data[1] >> 3) & 0x03
+        let layerBits = (data[1] >> 1) & 0x03
+        let bitrateIndex = (data[2] >> 4) & 0x0F
+        let sampleRateIndex = (data[2] >> 2) & 0x03
+        return versionBits != 1
+            && layerBits != 0
+            && bitrateIndex != 0
+            && bitrateIndex != 15
+            && sampleRateIndex != 3
+    }
+
+    static func isADTSHeader(_ data: Data) -> Bool {
+        guard data.count >= 7, data[0] == 0xFF, (data[1] & 0xF6) == 0xF0 else {
+            return false
+        }
+        let layerBits = (data[1] >> 1) & 0x03
+        let samplingFrequencyIndex = (data[2] >> 2) & 0x0F
+        let frameLength = (Int(data[3] & 0x03) << 11) | (Int(data[4]) << 3) | Int((data[5] >> 5) & 0x07)
+        return layerBits == 0
+            && samplingFrequencyIndex != 15
+            && frameLength >= 7
     }
 }

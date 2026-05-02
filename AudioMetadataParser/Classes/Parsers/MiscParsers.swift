@@ -141,7 +141,7 @@ struct AACParser: FormatParser {
         if header.count >= 4, String(decoding: header.prefix(4), as: Unicode.ASCII.self) == "ADIF" {
             return true
         }
-        if header.count >= 2, header[0] == 0xFF, (header[1] & 0xF0) == 0xF0 {
+        if FormatProbe.isADTSHeader(header) {
             return true
         }
         return (fileHint as NSString?)?.pathExtension.lowercased() == "aac"
@@ -163,7 +163,7 @@ struct AACParser: FormatParser {
             )
         }
 
-        guard header.count >= 7, header[0] == 0xFF, (header[1] & 0xF0) == 0xF0 else {
+        guard FormatProbe.isADTSHeader(header) else {
             throw AudioMetadataError(code: .invalidHeader, message: "invalid adts header")
         }
 
@@ -174,14 +174,23 @@ struct AACParser: FormatParser {
         let channels = Int(((header[2] & 0x01) << 2) | ((header[3] >> 6) & 0x03))
         let frameLength = Int((UInt16(header[3] & 0x03) << 11) | (UInt16(header[4]) << 3) | UInt16((header[5] >> 5) & 0x07))
 
-        var bitrate: Int?
-        if let sampleRate, frameLength > 0 {
+        let scan = try scanADTSFrames(reader: reader, fileLength: reader.length, sampleRate: sampleRate)
+        let bitrate: Int?
+        if let scannedBitrate = scan.bitrate {
+            bitrate = scannedBitrate
+        } else if let sampleRate, frameLength > 0 {
             bitrate = Int((Double(frameLength) * 8.0 * Double(sampleRate)) / 1024.0)
+        } else {
+            bitrate = nil
         }
 
-        var length: Double?
-        if let bitrate, let fileLength = reader.length, bitrate > 0 {
+        let length: Double?
+        if let scannedLength = scan.length {
+            length = scannedLength
+        } else if let bitrate, let fileLength = reader.length, bitrate > 0 {
             length = (Double(fileLength) * 8.0) / Double(bitrate)
+        } else {
+            length = nil
         }
 
         return ParsedAudioMetadata(
@@ -191,6 +200,34 @@ struct AACParser: FormatParser {
             extensions: [:],
             diagnostics: ParserDiagnostics(parserName: "AACParser")
         )
+    }
+
+    private func scanADTSFrames(reader: WindowedReader, fileLength: Int64?, sampleRate: Int?) throws -> (length: Double?, bitrate: Int?) {
+        guard let fileLength, let sampleRate, sampleRate > 0 else {
+            return (nil, nil)
+        }
+
+        var cursor: Int64 = 0
+        var frames = 0
+        while cursor + 7 <= fileLength {
+            let header = try reader.read(at: cursor, length: 7)
+            guard FormatProbe.isADTSHeader(header) else {
+                break
+            }
+            let frameLength = Int((UInt16(header[3] & 0x03) << 11) | (UInt16(header[4]) << 3) | UInt16((header[5] >> 5) & 0x07))
+            guard frameLength >= 7 else {
+                break
+            }
+            frames += 1
+            cursor += Int64(frameLength)
+        }
+
+        guard frames > 0 else {
+            return (nil, nil)
+        }
+        let length = Double(frames * 1024) / Double(sampleRate)
+        let bitrate = Int((Double(fileLength) * 8.0) / length)
+        return (length, bitrate)
     }
 }
 
@@ -206,14 +243,18 @@ struct AC3Parser: FormatParser {
     }
 
     func parse(reader: WindowedReader, context: ParseContext) throws -> ParsedAudioMetadata {
-        let data = try reader.read(at: 0, length: 8)
+        let data = try reader.read(at: 0, length: 16)
         guard data.count >= 7, data[0] == 0x0B, data[1] == 0x77 else {
             throw AudioMetadataError(code: .invalidHeader, message: "invalid ac3/eac3 header")
         }
 
+        let bsid = Int((data[5] & 0xF8) >> 3)
+        if bsid > 10 {
+            return try parseEAC3(data: data, reader: reader, bsid: bsid)
+        }
+
         let fscod = Int((data[4] & 0xC0) >> 6)
         let frmsizecod = Int(data[4] & 0x3F)
-        let bsid = Int((data[5] & 0xF8) >> 3)
         let acmod = Int((data[6] & 0xE0) >> 5)
         let lfeon = Int((data[6] & 0x10) >> 4)
 
@@ -240,9 +281,74 @@ struct AC3Parser: FormatParser {
             format: resolvedFormat,
             coreInfo: AudioCoreInfo(length: length, bitrate: bitrate, sampleRate: sampleRate, channels: channels, bitsPerSample: nil),
             tags: [:],
-            extensions: ["bsid": .int(bsid)],
+            extensions: ["bsid": .int(bsid), "codec": .text(["ac-3"])],
             diagnostics: ParserDiagnostics(parserName: "AC3Parser")
         )
+    }
+
+    private func parseEAC3(data: Data, reader: WindowedReader, bsid: Int) throws -> ParsedAudioMetadata {
+        var bits = BitCursor(data: data, bitOffset: 16)
+        _ = try bits.read(2) // stream type
+        _ = try bits.read(3) // substream id
+        let frameSize = (try bits.read(11) + 1) * 2
+        let fscod = try bits.read(2)
+        let sampleRates = [48000, 44100, 32000]
+        let blocksByCode = [1, 2, 3, 6]
+
+        let sampleRate: Int
+        let blockCount: Int
+        if fscod == 3 {
+            let fscod2 = try bits.read(2)
+            guard fscod2 < sampleRates.count else {
+                throw AudioMetadataError(code: .invalidHeader, message: "invalid eac3 sample rate")
+            }
+            sampleRate = sampleRates[fscod2] / 2
+            blockCount = 6
+        } else {
+            let numblkscod = try bits.read(2)
+            sampleRate = sampleRates[fscod]
+            blockCount = blocksByCode[numblkscod]
+        }
+
+        let acmod = try bits.read(3)
+        let lfeon = try bits.read(1)
+        let channelMap = [2, 1, 2, 3, 3, 4, 4, 5]
+        let channels = channelMap[acmod] + lfeon
+        let bitrate = (8 * frameSize * sampleRate) / (blockCount * 256)
+
+        let length: Double?
+        if let fileLength = reader.length, bitrate > 0 {
+            length = (Double(fileLength) * 8.0) / Double(bitrate)
+        } else {
+            length = nil
+        }
+
+        return ParsedAudioMetadata(
+            format: .eac3,
+            coreInfo: AudioCoreInfo(length: length, bitrate: bitrate, sampleRate: sampleRate, channels: channels, bitsPerSample: nil),
+            tags: [:],
+            extensions: ["bsid": .int(bsid), "codec": .text(["ec-3"])],
+            diagnostics: ParserDiagnostics(parserName: "AC3Parser")
+        )
+    }
+}
+
+private struct BitCursor {
+    let data: Data
+    var bitOffset: Int
+
+    mutating func read(_ count: Int) throws -> Int {
+        guard count >= 0, bitOffset + count <= data.count * 8 else {
+            throw AudioMetadataError(code: .truncatedData, message: "bitstream truncated")
+        }
+        var value = 0
+        for _ in 0..<count {
+            let byte = data[bitOffset / 8]
+            let bit = (byte >> (7 - (bitOffset % 8))) & 0x01
+            value = (value << 1) | Int(bit)
+            bitOffset += 1
+        }
+        return value
     }
 }
 
@@ -269,10 +375,14 @@ struct WavPackParser: FormatParser {
 
         let sampleRateIndex = (flags >> 23) & 0x0F
         let sampleRates = [6000, 8000, 9600, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000, 64000, 88200, 96000, 192000, 0]
-        let sampleRate = sampleRateIndex < sampleRates.count ? sampleRates[sampleRateIndex] : nil
+        var sampleRate = sampleRateIndex < sampleRates.count ? sampleRates[sampleRateIndex] : nil
 
         let channels = (flags & 0x4) != 0 ? 1 : 2
-        let bitsPerSample = ((flags & 0x3) + 1) * 8
+        var bitsPerSample = ((flags & 0x3) + 1) * 8
+        if (flags & 0x8000_0000) != 0 {
+            sampleRate = sampleRate.map { $0 * 4 }
+            bitsPerSample = 1
+        }
 
         var length: Double?
         if let sampleRate, sampleRate > 0, totalSamples > 0, totalSamples != 0xFFFFFFFF {
@@ -387,6 +497,7 @@ struct DSFParser: FormatParser {
         let sampleCount = try fmtHeader.toUInt64LE(at: 36)
 
         let length = sampleRate > 0 ? Double(sampleCount) / Double(sampleRate) : nil
+        let bitrate = sampleRate * channels * bitsPerSample
 
         var tags: [String: MetadataTagValue] = [:]
         if metadataPointer > 0, let fileLength = reader.length, metadataPointer < fileLength {
@@ -399,7 +510,7 @@ struct DSFParser: FormatParser {
 
         return ParsedAudioMetadata(
             format: .dsf,
-            coreInfo: AudioCoreInfo(length: length, bitrate: ParserHelpers.bitrate(lengthSeconds: length, fileSizeBytes: reader.length), sampleRate: sampleRate, channels: channels, bitsPerSample: bitsPerSample),
+            coreInfo: AudioCoreInfo(length: length, bitrate: bitrate > 0 ? bitrate : nil, sampleRate: sampleRate, channels: channels, bitsPerSample: bitsPerSample),
             tags: tags,
             extensions: [:],
             diagnostics: ParserDiagnostics(parserName: "DSFParser")

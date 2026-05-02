@@ -122,6 +122,12 @@ struct OggFamilyParser: FormatParser {
                 channels = Int(firstPacket[11])
                 sampleRate = Int(firstPacket[12]) | (Int(firstPacket[13]) << 8) | (Int(firstPacket[14]) << 16) | (Int(firstPacket[15]) << 24)
             }
+            if firstPacket.count >= 28 {
+                let nominalBitrate = Int(try firstPacket.toUInt32LE(at: 20))
+                if nominalBitrate > 0 {
+                    bitrate = nominalBitrate
+                }
+            }
             if packets.count > 1, packets[1].count >= 7, packets[1][0] == 0x03 {
                 tags = TagParsers.parseVorbisCommentPacket(Data(packets[1].dropFirst(7)))
             }

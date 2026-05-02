@@ -69,7 +69,8 @@ struct MP3Parser: FormatParser {
             if let frameCount {
                 lengthSeconds = (Double(frameCount * header.samplesPerFrame) / Double(header.sampleRate))
                 if let byteCount, lengthSeconds ?? 0 > 0 {
-                    bitrate = Int((Double(byteCount) * 8.0) / (lengthSeconds ?? 1.0))
+                    let audioBytes = max(0, byteCount - header.frameLength)
+                    bitrate = Int((Double(audioBytes) * 8.0) / (lengthSeconds ?? 1.0))
                 }
             }
             bitrateMode = String(decoding: xingData.prefix(4), as: Unicode.ASCII.self) == "Info" ? "CBR" : "VBR"

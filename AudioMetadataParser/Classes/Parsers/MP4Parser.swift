@@ -44,6 +44,7 @@ struct MP4Parser: FormatParser {
         var sampleRate: Int?
         var channels: Int?
         var bitsPerSample: Int?
+        var trackBitrate: Int?
 
         for track in tracks {
             let trackChildren = try parseAtoms(reader: reader, start: track.dataOffset, end: track.endOffset, parentType: track.type)
@@ -85,14 +86,21 @@ struct MP4Parser: FormatParser {
                     let stblChildren = try parseAtoms(reader: reader, start: stbl.dataOffset, end: stbl.endOffset, parentType: stbl.type)
                     if let stsd = stblChildren.first(where: { $0.type == "stsd" }) {
                         let stsdData = try reader.read(at: stsd.dataOffset, length: Int(stsd.size - stsd.headerSize))
-                        if stsdData.count >= 40 {
+                        if stsdData.count >= 44 {
                             let entryCount = try stsdData.toUInt32BE(at: 4)
                             if entryCount > 0 {
                                 let entryOffset = 8
                                 if stsdData.count >= entryOffset + 36 {
-                                    channels = Int(try stsdData.toUInt16BE(at: entryOffset + 16))
-                                    bitsPerSample = Int(try stsdData.toUInt16BE(at: entryOffset + 18))
-                                    sampleRate = Int(try stsdData.toUInt32BE(at: entryOffset + 24) >> 16)
+                                    channels = Int(try stsdData.toUInt16BE(at: entryOffset + 24))
+                                    bitsPerSample = Int(try stsdData.toUInt16BE(at: entryOffset + 26))
+                                    sampleRate = Int(try stsdData.toUInt32BE(at: entryOffset + 32) >> 16)
+                                    let entryType = String(decoding: stsdData[entryOffset + 4..<entryOffset + 8], as: Unicode.ASCII.self)
+                                    if let parsed = try parseSampleEntryExtensions(stsdData, entryOffset: entryOffset, entryType: entryType) {
+                                        channels = parsed.channels ?? channels
+                                        bitsPerSample = parsed.bitsPerSample ?? bitsPerSample
+                                        sampleRate = parsed.sampleRate ?? sampleRate
+                                        trackBitrate = parsed.bitrate ?? trackBitrate
+                                    }
                                 }
                             }
                         }
@@ -109,7 +117,7 @@ struct MP4Parser: FormatParser {
             tags = parsed
         }
 
-        let bitrate = ParserHelpers.bitrate(lengthSeconds: length, fileSizeBytes: fileLength)
+        let bitrate = trackBitrate ?? ParserHelpers.bitrate(lengthSeconds: length, fileSizeBytes: fileLength)
         let extFormat = ParserHelpers.extensionFormat(fileHint: context.fileHint)
         let resolvedFormat: AudioFormat = (extFormat == .m4a || extFormat == .mp4) ? extFormat : .mp4
 
@@ -120,6 +128,121 @@ struct MP4Parser: FormatParser {
             extensions: [:],
             diagnostics: ParserDiagnostics(parserName: "MP4Parser")
         )
+    }
+
+    private struct SampleEntryDetails {
+        let bitrate: Int?
+        let sampleRate: Int?
+        let channels: Int?
+        let bitsPerSample: Int?
+    }
+
+    private func parseSampleEntryExtensions(_ data: Data, entryOffset: Int, entryType: String) throws -> SampleEntryDetails? {
+        let childOffset = entryOffset + 36
+        guard data.count >= childOffset + 8 else {
+            return nil
+        }
+
+        let childSize = Int(try data.toUInt32BE(at: childOffset))
+        guard childSize >= 8, data.count >= childOffset + childSize else {
+            return nil
+        }
+        let childType = String(decoding: data[childOffset + 4..<childOffset + 8], as: Unicode.ASCII.self)
+        let payload = data.subdata(in: childOffset + 8..<childOffset + childSize)
+
+        if entryType == "alac", childType == "alac" {
+            return try parseALACPayload(payload)
+        }
+        if entryType == "mp4a", childType == "esds" {
+            return parseESDSPayload(payload)
+        }
+        return nil
+    }
+
+    private func parseALACPayload(_ payload: Data) throws -> SampleEntryDetails? {
+        guard payload.count >= 28, payload[0] == 0 else {
+            return nil
+        }
+        let bitsPerSample = Int(payload[9])
+        let channels = Int(payload[13])
+        let bitrate = Int(try payload.toUInt32BE(at: 20))
+        let sampleRate = Int(try payload.toUInt32BE(at: 24))
+        return SampleEntryDetails(
+            bitrate: bitrate > 0 ? bitrate : nil,
+            sampleRate: sampleRate > 0 ? sampleRate : nil,
+            channels: channels > 0 ? channels : nil,
+            bitsPerSample: bitsPerSample > 0 ? bitsPerSample : nil
+        )
+    }
+
+    private func parseESDSPayload(_ payload: Data) -> SampleEntryDetails? {
+        guard payload.count > 4 else {
+            return nil
+        }
+        var cursor = 4
+
+        guard readDescriptorHeader(payload, cursor: &cursor)?.tag == 0x03 else {
+            return nil
+        }
+        guard cursor + 3 <= payload.count else {
+            return nil
+        }
+        let flags = payload[cursor + 2]
+        cursor += 3
+        if (flags & 0x80) != 0 { cursor += 2 }
+        if (flags & 0x40) != 0 {
+            guard cursor < payload.count else { return nil }
+            cursor += 1 + Int(payload[cursor])
+        }
+        if (flags & 0x20) != 0 { cursor += 2 }
+
+        guard let decoderConfig = readDescriptorHeader(payload, cursor: &cursor),
+              decoderConfig.tag == 0x04,
+              cursor + 13 <= payload.count else {
+            return nil
+        }
+        cursor += 1 // object type indication
+        cursor += 1 // stream type, upstream and reserved
+        cursor += 3 // buffer size
+        cursor += 4 // max bitrate
+        let bitrate = readUInt32BE(payload, at: cursor)
+        return SampleEntryDetails(
+            bitrate: bitrate > 0 ? bitrate : nil,
+            sampleRate: nil,
+            channels: nil,
+            bitsPerSample: nil
+        )
+    }
+
+    private func readDescriptorHeader(_ data: Data, cursor: inout Int) -> (tag: UInt8, length: Int)? {
+        guard cursor < data.count else {
+            return nil
+        }
+        let tag = data[cursor]
+        cursor += 1
+        var length = 0
+        for _ in 0..<4 {
+            guard cursor < data.count else {
+                return nil
+            }
+            let byte = data[cursor]
+            cursor += 1
+            length = (length << 7) | Int(byte & 0x7F)
+            if (byte & 0x80) == 0 {
+                return (tag, length)
+            }
+        }
+        return (tag, length)
+    }
+
+    private func readUInt32BE(_ data: Data, at offset: Int) -> Int {
+        guard offset + 4 <= data.count else {
+            return 0
+        }
+        return (Int(data[offset]) << 24)
+            | (Int(data[offset + 1]) << 16)
+            | (Int(data[offset + 2]) << 8)
+            | Int(data[offset + 3])
     }
 
     private func parseAtoms(reader: WindowedReader, start: Int64, end: Int64, parentType: String?) throws -> [MP4Atom] {
