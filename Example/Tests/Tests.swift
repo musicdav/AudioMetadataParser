@@ -112,9 +112,9 @@ final class AudioMetadataGoldenTests: XCTestCase {
 
             let result = try awaitResult { try await parser.parse(url: url) }
             assertFormat(result.format, expected: caseData.string("expectedFormat"), identifier: identifier)
-            assertCoreInfo(result.coreInfo, expected: caseData.dictionary("expectedCoreInfo"), inputFile: inputFile, identifier: identifier)
-            assertTags(result.tags, expected: caseData.dictionary("expectedTags"), inputFile: inputFile, identifier: identifier)
-            assertExtensions(result.extensions, expected: caseData.dictionary("expectedExtensions"), inputFile: inputFile, identifier: identifier)
+            assertCoreInfo(result.coreInfo, expected: caseData.dictionary("expectedCoreInfo") ?? [:], inputFile: inputFile, identifier: identifier)
+            assertTags(result.tags, expected: caseData.dictionary("expectedTags") ?? [:], inputFile: inputFile, identifier: identifier)
+            assertExtensions(result.extensions, expected: caseData.dictionary("expectedExtensions") ?? [:], inputFile: inputFile, identifier: identifier)
         }
     }
 
@@ -309,8 +309,10 @@ final class AudioMetadataGoldenTests: XCTestCase {
 
     private func loadCases() -> [[String: Any]] {
         let indexURL = goldenDirectory.appendingPathComponent("index.json")
+
         guard let indexData = try? Data(contentsOf: indexURL),
-              let indexObject = try? JSONSerialization.jsonObject(with: indexData) as? [String: Any],
+              let decoded = try? JSONSerialization.jsonObject(with: indexData),
+              let indexObject = decoded as? [String: Any],
               let files = indexObject["files"] as? [[String: Any]] else {
             XCTFail("failed to load golden index from \(indexURL.path)")
             return []
@@ -321,7 +323,8 @@ final class AudioMetadataGoldenTests: XCTestCase {
             guard let name = file["file"] as? String else { continue }
             let url = goldenDirectory.appendingPathComponent(name)
             guard let data = try? Data(contentsOf: url),
-                  let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let decoded = try? JSONSerialization.jsonObject(with: data),
+                  let object = decoded as? [String: Any],
                   let cases = object["cases"] as? [[String: Any]] else {
                 XCTFail("failed to load golden file: \(name)")
                 continue

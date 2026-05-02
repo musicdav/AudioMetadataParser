@@ -34,7 +34,10 @@ final class FileByteSource: ByteSource {
         }
         do {
             try fileHandle.seek(toOffset: UInt64(max(0, offset)))
-            return try fileHandle.read(upToCount: length) ?? Data()
+            if #available(iOS 13.4, macOS 10.15.4, tvOS 13.4, watchOS 6.2, *) {
+                return try fileHandle.read(upToCount: length) ?? Data()
+            }
+            return fileHandle.readData(ofLength: length)
         } catch {
             throw AudioMetadataError(
                 code: .ioFailure,
