@@ -11,12 +11,29 @@ struct FLACParser: FormatParser {
     }
 
     func parse(reader: WindowedReader, context: ParseContext) throws -> ParsedAudioMetadata {
+        var tags: [String: MetadataTagValue] = [:]
+        var extensions: [String: MetadataTagValue] = [:]
+
         let header = try reader.read(at: 0, length: 4)
-        guard String(decoding: header, as: Unicode.ASCII.self) == "fLaC" else {
-            throw AudioMetadataError(code: .invalidHeader, message: "missing flac marker")
+        let flacOffset: Int64
+        if String(decoding: header, as: Unicode.ASCII.self) == "fLaC" {
+            flacOffset = 0
+        } else {
+            let id3 = try TagParsers.parseID3v2(reader: reader, at: 0, options: context.options)
+            guard id3.size > 0 else {
+                throw AudioMetadataError(code: .invalidHeader, message: "missing flac marker")
+            }
+            tags.merge(id3.tags, uniquingKeysWith: { _, new in new })
+
+            let shiftedHeader = try reader.read(at: Int64(id3.size), length: 4)
+            guard String(decoding: shiftedHeader, as: Unicode.ASCII.self) == "fLaC" else {
+                throw AudioMetadataError(code: .invalidHeader, message: "missing flac marker", offset: Int64(id3.size))
+            }
+            flacOffset = Int64(id3.size)
+            extensions["leading_id3v2_size"] = .int(id3.size)
         }
 
-        var cursor: Int64 = 4
+        var cursor = flacOffset + 4
         var isLast = false
 
         var sampleRate: Int?
@@ -24,9 +41,6 @@ struct FLACParser: FormatParser {
         var bitsPerSample: Int?
         var totalSamples: UInt64?
         var hasStreamInfo = false
-
-        var tags: [String: MetadataTagValue] = [:]
-        var extensions: [String: MetadataTagValue] = [:]
 
         while !isLast {
             let blockHeader = try reader.read(at: cursor, length: 4)

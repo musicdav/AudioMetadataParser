@@ -270,6 +270,31 @@ final class AudioMetadataGoldenTests: XCTestCase {
         XCTAssertEqual(Data(payload.prefix(pngSignature.count)), pngSignature, "APIC payload should start with PNG signature")
     }
 
+    func testFLACWithLeadingID3v2Tags() throws {
+        let parser = AudioMetadataParser(options: ParseOptions(includeBinaryData: true, maxBinaryTagBytes: 4 * 1024 * 1024))
+        let cases = [
+            ("不能说的秘密.flac", "不能说的秘密", "周杰伦"),
+            ("神秘嘉宾.flac", "神秘嘉宾", "林宥嘉")
+        ]
+
+        for (filename, expectedTitle, expectedArtist) in cases {
+            let url = fixtureDirectory.appendingPathComponent(filename)
+            XCTAssertTrue(FileManager.default.fileExists(atPath: url.path), "missing fixture \(filename)")
+
+            let result = try awaitResult { try await parser.parse(url: url) }
+            XCTAssertEqual(result.format, .flac, "format mismatch for \(filename)")
+            XCTAssertEqual(result.coreInfo.sampleRate, 44100, "sample rate mismatch for \(filename)")
+            XCTAssertTextTag(result.tags["TITLE"], expectedTitle, "title mismatch for \(filename)")
+            XCTAssertTextTag(result.tags["ARTIST"], expectedArtist, "artist mismatch for \(filename)")
+
+            let cover = requireBinaryTag("PICTURE", from: result.tags, context: filename)
+            XCTAssertTrue(cover.mime == "image/jpeg" || cover.mime == "image/jpg", "unexpected cover mime for \(filename): \(cover.mime ?? "nil")")
+            XCTAssertNotNil(cover.data, "includeBinaryData=true should embed FLAC picture payload for \(filename)")
+            XCTAssertGreaterThan(cover.size, 10_000, "fixture assumption broken: expected cover art payload for \(filename)")
+            XCTAssertNotNil(result.primaryCoverArt?.data, "primaryCoverArt should expose FLAC picture payload for \(filename)")
+        }
+    }
+
     func testBinaryTagPayloadRespectsSizeLimit() throws {
         let url = fixtureDirectory.appendingPathComponent("covr-with-name.m4a")
         XCTAssertTrue(FileManager.default.fileExists(atPath: url.path), "missing fixture covr-with-name.m4a")
@@ -553,6 +578,20 @@ final class AudioMetadataGoldenTests: XCTestCase {
             return BinaryDigest(size: 0, sha256: "")
         }
         return value
+    }
+
+    private func XCTAssertTextTag(
+        _ tag: MetadataTagValue?,
+        _ expected: String,
+        _ message: @autoclosure () -> String,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        guard case let .text(values)? = tag else {
+            XCTFail(message(), file: file, line: line)
+            return
+        }
+        XCTAssertTrue(values.contains(expected), message(), file: file, line: line)
     }
 }
 

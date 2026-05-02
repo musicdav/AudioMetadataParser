@@ -14,7 +14,13 @@ struct FormatProbe {
             scores[format, default: 0] += score
         }
 
-        if header.count >= 3, header.prefix(3) == Data([0x49, 0x44, 0x33]) { bump(.mp3, 80); bump(.id3, 60) }
+        if header.count >= 3, header.prefix(3) == Data([0x49, 0x44, 0x33]) {
+            bump(.mp3, 80)
+            bump(.id3, 60)
+            if ext == "flac" {
+                bump(.flac, 90)
+            }
+        }
         if header.count >= 4, header.prefix(4) == Data("fLaC".utf8) { bump(.flac, 100) }
         if header.count >= 12,
            String(decoding: header.prefix(4), as: Unicode.ASCII.self) == "RIFF",
