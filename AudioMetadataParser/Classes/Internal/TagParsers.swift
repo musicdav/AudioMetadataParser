@@ -366,11 +366,17 @@ enum TagParsers {
         case 1, 2:
             guard start + 1 < data.count else { return nil }
             var index = start
+            // Skip BOM if present so that we stay aligned to 2-byte code units.
+            if index + 1 < data.count,
+               (data[index] == 0xFF && data[index + 1] == 0xFE) ||
+               (data[index] == 0xFE && data[index + 1] == 0xFF) {
+                index += 2
+            }
             while index + 1 < data.count {
                 if data[index] == 0 && data[index + 1] == 0 {
                     return index + 2
                 }
-                index += 1
+                index += 2
             }
             return nil
         default:
